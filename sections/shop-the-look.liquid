@@ -224,6 +224,8 @@
 <script src="{{ 'shop-the-look.js' | asset_url }}" defer></script>
 
 {% stylesheet %}
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800&display=swap');
+
   .shop-the-look-section {
     overflow: hidden;
   }
@@ -234,6 +236,7 @@
   }
 
   .shop-the-look__title {
+    font-family: 'Barlow Condensed', sans-serif;
     font-size: 32px;
     font-weight: 600;
     text-transform: uppercase;
@@ -310,13 +313,14 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.6) 100%);
-    opacity: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.4) 100%);
+    opacity: 1; /* Always visible for button contrast */
     transition: opacity 0.3s ease;
   }
 
   .shop-look-card:hover .shop-look-card__overlay {
     opacity: 1;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.6) 100%);
   }
 
   .shop-look-card__content {
@@ -333,7 +337,9 @@
   }
 
   .shop-look-card__handle {
+    font-family: 'Barlow Condensed', sans-serif;
     font-size: 14px;
+    font-weight: 400;
     color: #ffffff;
     margin-bottom: 10px;
     opacity: 0;
@@ -347,6 +353,7 @@
   }
 
   .shop-look-card__button {
+    font-family: 'Barlow Condensed', sans-serif;
     display: inline-block;
     padding: 12px 24px;
     border: none;
@@ -357,12 +364,13 @@
     letter-spacing: 1px;
     cursor: pointer;
     transition: all 0.3s ease;
-    opacity: 1; /* Always visible */
-    transform: translateY(0); /* Always in position */
+    opacity: 1 !important; /* Always visible - force override */
+    transform: translateY(0) !important; /* Always in position - force override */
+    visibility: visible !important; /* Ensure always visible */
   }
 
   .shop-look-card__button:hover {
-    transform: translateY(-2px);
+    transform: translateY(-2px) !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 
