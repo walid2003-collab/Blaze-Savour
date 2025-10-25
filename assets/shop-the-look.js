@@ -23,6 +23,54 @@ class ShopTheLook {
   init() {
     this.setupEventListeners();
     this.setupSwipe();
+    this.checkAndOpenCart();
+  }
+
+  checkAndOpenCart() {
+    // Check if we need to open cart after page reload
+    if (sessionStorage.getItem('openCartAfterReload') === 'true') {
+      sessionStorage.removeItem('openCartAfterReload');
+
+      // Wait for page to fully load
+      setTimeout(() => {
+        // Try multiple methods to open cart (different themes use different approaches)
+
+        // Method 1: Click on cart icon/button
+        const cartButton = document.querySelector('[data-cart-icon]') ||
+                          document.querySelector('.cart-icon') ||
+                          document.querySelector('[href="/cart"]') ||
+                          document.querySelector('a[href*="cart"]');
+
+        if (cartButton) {
+          cartButton.click();
+          return;
+        }
+
+        // Method 2: Dispatch cart open event
+        document.dispatchEvent(new CustomEvent('cart:open'));
+        document.dispatchEvent(new CustomEvent('cart:show'));
+
+        // Method 3: Try to open cart drawer if it exists
+        const cartDrawer = document.querySelector('cart-drawer') ||
+                          document.querySelector('[id*="cart-drawer"]') ||
+                          document.querySelector('[id*="CartDrawer"]');
+
+        if (cartDrawer) {
+          cartDrawer.classList.add('active', 'open');
+        }
+
+        // Method 4: As fallback, navigate to cart page
+        setTimeout(() => {
+          const isCartOpen = document.querySelector('.cart-drawer.active') ||
+                            document.querySelector('cart-drawer.active') ||
+                            document.body.classList.contains('cart-open');
+
+          if (!isCartOpen) {
+            window.location.href = '/cart';
+          }
+        }, 500);
+      }, 300);
+    }
   }
 
   setupEventListeners() {
@@ -148,6 +196,9 @@ class ShopTheLook {
       const element = this.createProductElement(product);
       this.modalContent.appendChild(element);
     });
+
+    // Initialize button text
+    this.updateAddToCartButton();
   }
 
   async fetchProductData(handle) {
@@ -226,7 +277,7 @@ class ShopTheLook {
   updateSelectedVariant(productEl, product) {
     const selects = productEl.querySelectorAll('[data-option-index]');
     const selectedOptions = [];
-    
+
     selects.forEach(select => {
       selectedOptions.push(select.value);
     });
@@ -242,6 +293,49 @@ class ShopTheLook {
     if (variant) {
       productEl.dataset.selectedVariantId = variant.id;
       productEl.dataset.variantAvailable = variant.available;
+    }
+
+    // Update button text with current count
+    this.updateAddToCartButton();
+  }
+
+  countReadyProducts() {
+    const productElements = this.modalContent.querySelectorAll('.shop-look-product');
+    let count = 0;
+
+    productElements.forEach((el, index) => {
+      const product = this.currentProducts[index];
+      if (!product) return;
+
+      // Check if product has variants
+      if (product.options && product.options.length > 0) {
+        // Product has variants - check if all are selected
+        const selects = el.querySelectorAll('[data-option-index]');
+        const allSelected = Array.from(selects).every(select => select.value !== '');
+
+        if (allSelected && el.dataset.selectedVariantId) {
+          count++;
+        }
+      } else {
+        // Product has no variants - always ready
+        count++;
+      }
+    });
+
+    return count;
+  }
+
+  updateAddToCartButton() {
+    if (!this.addAllBtn) return;
+
+    const count = this.countReadyProducts();
+
+    if (count > 0) {
+      this.addAllBtn.textContent = `ADD ${count} ITEM${count > 1 ? 'S' : ''} TO BAG`;
+      this.addAllBtn.disabled = false;
+    } else {
+      this.addAllBtn.textContent = 'SELECT SIZE & COLOUR';
+      this.addAllBtn.disabled = true;
     }
   }
 
@@ -259,19 +353,25 @@ class ShopTheLook {
 
     try {
       const items = [];
-      
-      // Collect all selected variants
+
+      // Collect only products with complete variant selections
       const productElements = this.modalContent.querySelectorAll('.shop-look-product');
       productElements.forEach((el, index) => {
         const product = this.currentProducts[index];
         if (!product) return;
 
-        const variantSelect = el.querySelector('[data-variant-select]');
         let variantId;
 
-        if (variantSelect) {
-          variantId = parseInt(variantSelect.value);
+        // Check if product has variants
+        if (product.options && product.options.length > 0) {
+          // Only add if variant is selected
+          if (el.dataset.selectedVariantId) {
+            variantId = parseInt(el.dataset.selectedVariantId);
+          } else {
+            return; // Skip this product - no variant selected
+          }
         } else {
+          // No variants - use first (and only) variant
           variantId = product.variants[0].id;
         }
 
@@ -280,6 +380,12 @@ class ShopTheLook {
           quantity: 1
         });
       });
+
+      if (items.length === 0) {
+        this.addAllBtn.textContent = 'SELECT SIZE & COLOUR';
+        this.addAllBtn.disabled = false;
+        return;
+      }
 
       // Add all items to cart
       const response = await fetch('/cart/add.js', {
@@ -291,16 +397,15 @@ class ShopTheLook {
       });
 
       if (response.ok) {
-        this.showToast();
-        this.addAllBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 20px; height: 20px; margin-right: 8px;"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>ADDED!';
-        
-        setTimeout(() => {
-          this.addAllBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 20px; height: 20px; margin-right: 8px;"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>ADD TO BAG';
-          this.addAllBtn.disabled = false;
-        }, 2000);
+        this.addAllBtn.textContent = 'ADDED!';
 
-        // Dispatch cart refresh event
-        document.dispatchEvent(new CustomEvent('cart:refresh'));
+        // Store flag to open cart after reload
+        sessionStorage.setItem('openCartAfterReload', 'true');
+
+        // Refresh page after a short delay
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       } else {
         throw new Error('Failed to add to cart');
       }
