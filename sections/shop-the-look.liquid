@@ -192,19 +192,19 @@
               </div>
             {% endif %}
 
-            <div 
-              class="shop-look-card__overlay" 
+            <div
+              class="shop-look-card__overlay"
               {% if block.settings.overlay_color != blank %}
                 style="background: {{ block.settings.overlay_color }};"
               {% endif %}
             ></div>
 
+            {% if block.settings.influencer_handle != blank %}
+              <div class="shop-look-card__handle">{{ block.settings.influencer_handle }}</div>
+            {% endif %}
+
             <div class="shop-look-card__content">
-              {% if block.settings.influencer_handle != blank %}
-                <div class="shop-look-card__handle">{{ block.settings.influencer_handle }}</div>
-              {% endif %}
-              
-              <button 
+              <button
                 class="shop-look-card__button"
                 style="background-color: {{ block.settings.button_color }}; color: {{ block.settings.button_text_color }};"
                 data-open-modal="{{ block.id }}"
@@ -270,11 +270,6 @@
     border-radius: 0px;
     overflow: hidden;
     cursor: pointer;
-    transition: transform 0.3s ease;
-  }
-
-  .shop-look-card:hover {
-    transform: translateY(-5px);
   }
 
   .shop-look-card__image-wrapper {
@@ -293,11 +288,6 @@
     height: 100%;
     object-fit: contain; /* Don't crop, show full image */
     background-color: #f5f5f5;
-    transition: transform 0.5s ease;
-  }
-
-  .shop-look-card:hover .shop-look-card__image {
-    transform: scale(1.05);
   }
 
   .shop-look-card__placeholder {
@@ -315,12 +305,6 @@
     height: 100%;
     background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.4) 100%);
     opacity: 1; /* Always visible for button contrast */
-    transition: opacity 0.3s ease;
-  }
-
-  .shop-look-card:hover .shop-look-card__overlay {
-    opacity: 1;
-    background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.6) 100%);
   }
 
   .shop-look-card__content {
@@ -338,18 +322,20 @@
 
   .shop-look-card__handle {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: #ffffff;
-    margin-bottom: 10px;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.3s ease;
-  }
-
-  .shop-look-card:hover .shop-look-card__handle {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #ffffff;
+    color: #000000;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 9px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 3;
     opacity: 1;
-    transform: translateY(0);
+    margin: 0;
   }
 
   .shop-look-card__button {
@@ -363,15 +349,8 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     cursor: pointer;
-    transition: all 0.3s ease;
     opacity: 1 !important; /* Always visible - force override */
-    transform: translateY(0) !important; /* Always in position - force override */
     visibility: visible !important; /* Ensure always visible */
-  }
-
-  .shop-look-card__button:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 
   .shop-the-look__arrow {
