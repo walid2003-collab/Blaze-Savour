@@ -109,10 +109,10 @@ class ShopTheLook {
       return;
     }
 
-    let productHandles;
+    let products;
     try {
-      productHandles = JSON.parse(lookData);
-      console.log('Parsed product handles:', productHandles);
+      products = JSON.parse(lookData);
+      console.log('Parsed products:', products);
     } catch (e) {
       console.error('Error parsing look data:', e);
       this.modalContent.innerHTML = '<p style="text-align: center; padding: 40px;">Error loading product data.</p>';
@@ -120,52 +120,34 @@ class ShopTheLook {
       return;
     }
 
-    // Ensure we have an array and filter out any empty values
-    if (!Array.isArray(productHandles)) {
-      console.error('Product handles is not an array:', productHandles);
+    // Ensure we have an array
+    if (!Array.isArray(products)) {
+      console.error('Products is not an array:', products);
       this.modalContent.innerHTML = '<p style="text-align: center; padding: 40px;">Error loading product data.</p>';
       this.showModal();
       return;
     }
 
-    productHandles = productHandles.filter(handle => handle && handle.trim() !== '');
+    // Filter out any null/undefined products
+    products = products.filter(product => product && product.id);
 
-    console.log('Filtered product handles:', productHandles);
+    console.log('Filtered products:', products);
 
-    if (productHandles.length === 0) {
+    if (products.length === 0) {
       this.modalContent.innerHTML = '<p style="text-align: center; padding: 40px;">No products linked to this look yet.</p>';
       this.showModal();
       return;
     }
 
-    // Show modal with loading state
-    this.modalContent.innerHTML = '<p style="text-align: center; padding: 40px; grid-column: 1 / -1;">Loading...</p>';
+    // Show modal with products
     this.showModal();
+    this.modalContent.innerHTML = '';
+    this.currentProducts = products;
 
-    try {
-      const productData = await Promise.all(
-        productHandles.map(handle => this.fetchProductData(handle))
-      );
-      
-      console.log('Fetched products:', productData);
-      
-      this.modalContent.innerHTML = '';
-      this.currentProducts = [];
-      
-      productData.forEach(data => {
-        if (data && data.element && data.product) {
-          this.modalContent.appendChild(data.element);
-          this.currentProducts.push(data.product);
-        }
-      });
-
-      if (this.currentProducts.length === 0) {
-        this.modalContent.innerHTML = '<p style="text-align: center; padding: 40px; grid-column: 1 / -1;">No products available.</p>';
-      }
-    } catch (error) {
-      console.error('Error loading products:', error);
-      this.modalContent.innerHTML = '<p style="text-align: center; padding: 40px; grid-column: 1 / -1;">Error loading products. Please try again.</p>';
-    }
+    products.forEach(product => {
+      const element = this.createProductElement(product);
+      this.modalContent.appendChild(element);
+    });
   }
 
   async fetchProductData(handle) {

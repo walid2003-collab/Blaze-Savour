@@ -45,19 +45,135 @@
 
     <div class="shop-the-look__carousel" data-carousel>
       {% for block in section.blocks %}
-        {%- capture handles_string -%}
-          {%- if block.settings.product_1 != blank -%},{{ block.settings.product_1.handle }}{%- endif -%}
-          {%- if block.settings.product_2 != blank -%},{{ block.settings.product_2.handle }}{%- endif -%}
-          {%- if block.settings.product_3 != blank -%},{{ block.settings.product_3.handle }}{%- endif -%}
-          {%- if block.settings.product_4 != blank -%},{{ block.settings.product_4.handle }}{%- endif -%}
-          {%- if block.settings.product_5 != blank -%},{{ block.settings.product_5.handle }}{%- endif -%}
+        {%- assign products_array = "" | split: "," -%}
+        {%- capture products_json -%}
+        [
+          {%- if block.settings.product_1 != blank -%}
+          {
+            "id": {{ block.settings.product_1.id | json }},
+            "title": {{ block.settings.product_1.title | json }},
+            "handle": {{ block.settings.product_1.handle | json }},
+            "price": {{ block.settings.product_1.price | json }},
+            "featured_image": {{ block.settings.product_1.featured_image | image_url: width: 600 | json }},
+            "tags": {{ block.settings.product_1.tags | json }},
+            "options": {{ block.settings.product_1.options | json }},
+            "variants": [
+              {%- for variant in block.settings.product_1.variants -%}
+              {
+                "id": {{ variant.id | json }},
+                "title": {{ variant.title | json }},
+                "price": {{ variant.price | json }},
+                "available": {{ variant.available | json }},
+                "option1": {{ variant.option1 | json }},
+                "option2": {{ variant.option2 | json }},
+                "option3": {{ variant.option3 | json }}
+              }{%- unless forloop.last -%},{%- endunless -%}
+              {%- endfor -%}
+            ]
+          }{%- if block.settings.product_2 != blank or block.settings.product_3 != blank or block.settings.product_4 != blank or block.settings.product_5 != blank -%},{%- endif -%}
+          {%- endif -%}
+          {%- if block.settings.product_2 != blank -%}
+          {
+            "id": {{ block.settings.product_2.id | json }},
+            "title": {{ block.settings.product_2.title | json }},
+            "handle": {{ block.settings.product_2.handle | json }},
+            "price": {{ block.settings.product_2.price | json }},
+            "featured_image": {{ block.settings.product_2.featured_image | image_url: width: 600 | json }},
+            "tags": {{ block.settings.product_2.tags | json }},
+            "options": {{ block.settings.product_2.options | json }},
+            "variants": [
+              {%- for variant in block.settings.product_2.variants -%}
+              {
+                "id": {{ variant.id | json }},
+                "title": {{ variant.title | json }},
+                "price": {{ variant.price | json }},
+                "available": {{ variant.available | json }},
+                "option1": {{ variant.option1 | json }},
+                "option2": {{ variant.option2 | json }},
+                "option3": {{ variant.option3 | json }}
+              }{%- unless forloop.last -%},{%- endunless -%}
+              {%- endfor -%}
+            ]
+          }{%- if block.settings.product_3 != blank or block.settings.product_4 != blank or block.settings.product_5 != blank -%},{%- endif -%}
+          {%- endif -%}
+          {%- if block.settings.product_3 != blank -%}
+          {
+            "id": {{ block.settings.product_3.id | json }},
+            "title": {{ block.settings.product_3.title | json }},
+            "handle": {{ block.settings.product_3.handle | json }},
+            "price": {{ block.settings.product_3.price | json }},
+            "featured_image": {{ block.settings.product_3.featured_image | image_url: width: 600 | json }},
+            "tags": {{ block.settings.product_3.tags | json }},
+            "options": {{ block.settings.product_3.options | json }},
+            "variants": [
+              {%- for variant in block.settings.product_3.variants -%}
+              {
+                "id": {{ variant.id | json }},
+                "title": {{ variant.title | json }},
+                "price": {{ variant.price | json }},
+                "available": {{ variant.available | json }},
+                "option1": {{ variant.option1 | json }},
+                "option2": {{ variant.option2 | json }},
+                "option3": {{ variant.option3 | json }}
+              }{%- unless forloop.last -%},{%- endunless -%}
+              {%- endfor -%}
+            ]
+          }{%- if block.settings.product_4 != blank or block.settings.product_5 != blank -%},{%- endif -%}
+          {%- endif -%}
+          {%- if block.settings.product_4 != blank -%}
+          {
+            "id": {{ block.settings.product_4.id | json }},
+            "title": {{ block.settings.product_4.title | json }},
+            "handle": {{ block.settings.product_4.handle | json }},
+            "price": {{ block.settings.product_4.price | json }},
+            "featured_image": {{ block.settings.product_4.featured_image | image_url: width: 600 | json }},
+            "tags": {{ block.settings.product_4.tags | json }},
+            "options": {{ block.settings.product_4.options | json }},
+            "variants": [
+              {%- for variant in block.settings.product_4.variants -%}
+              {
+                "id": {{ variant.id | json }},
+                "title": {{ variant.title | json }},
+                "price": {{ variant.price | json }},
+                "available": {{ variant.available | json }},
+                "option1": {{ variant.option1 | json }},
+                "option2": {{ variant.option2 | json }},
+                "option3": {{ variant.option3 | json }}
+              }{%- unless forloop.last -%},{%- endunless -%}
+              {%- endfor -%}
+            ]
+          }{%- if block.settings.product_5 != blank -%},{%- endif -%}
+          {%- endif -%}
+          {%- if block.settings.product_5 != blank -%}
+          {
+            "id": {{ block.settings.product_5.id | json }},
+            "title": {{ block.settings.product_5.title | json }},
+            "handle": {{ block.settings.product_5.handle | json }},
+            "price": {{ block.settings.product_5.price | json }},
+            "featured_image": {{ block.settings.product_5.featured_image | image_url: width: 600 | json }},
+            "tags": {{ block.settings.product_5.tags | json }},
+            "options": {{ block.settings.product_5.options | json }},
+            "variants": [
+              {%- for variant in block.settings.product_5.variants -%}
+              {
+                "id": {{ variant.id | json }},
+                "title": {{ variant.title | json }},
+                "price": {{ variant.price | json }},
+                "available": {{ variant.available | json }},
+                "option1": {{ variant.option1 | json }},
+                "option2": {{ variant.option2 | json }},
+                "option3": {{ variant.option3 | json }}
+              }{%- unless forloop.last -%},{%- endunless -%}
+              {%- endfor -%}
+            ]
+          }
+          {%- endif -%}
+        ]
         {%- endcapture -%}
-        {%- assign handles_clean = handles_string | strip | remove_first: "," -%}
-        {%- assign handles_array = handles_clean | split: "," -%}
         <div
           class="shop-look-card"
           data-look-id="{{ block.id }}"
-          data-look-products='{{ handles_array | json }}'
+          data-look-products='{{ products_json | strip_newlines }}'
           {{ block.shopify_attributes }}
         >
           <div class="shop-look-card__image-wrapper">
