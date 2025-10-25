@@ -197,9 +197,9 @@
             {% endif %}
 
             <div class="shop-look-card__content">
-              <button
+              <button 
                 class="shop-look-card__button"
-                style="background-color: {{ block.settings.button_color }}; color: {{ block.settings.button_text_color }};"
+                style="background-color: {{ block.settings.button_color }}; color: {{ block.settings.button_text_color }}; font-family: {{ block.settings.button_text_font }}"
                 data-open-modal="{{ block.id }}"
               >
                 {{ block.settings.button_text | default: "GET THE LOOK" }}
@@ -448,6 +448,12 @@
           "id": "button_text",
           "label": "Button Text",
           "default": "GET THE LOOK"
+        },
+        {
+          "type": "font_picker",
+          "id": "button_text_font",
+          "label": "Button Font",
+          "default": "work_sans_n4",
         },
         {
           "type": "color",
