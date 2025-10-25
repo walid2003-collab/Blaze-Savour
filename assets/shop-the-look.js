@@ -109,10 +109,10 @@ class ShopTheLook {
       return;
     }
 
-    let settings;
+    let productHandles;
     try {
-      settings = JSON.parse(lookData);
-      console.log('Parsed settings:', settings);
+      productHandles = JSON.parse(lookData);
+      console.log('Parsed product handles:', productHandles);
     } catch (e) {
       console.error('Error parsing look data:', e);
       this.modalContent.innerHTML = '<p style="text-align: center; padding: 40px;">Error loading product data.</p>';
@@ -120,16 +120,17 @@ class ShopTheLook {
       return;
     }
 
-    // Collect product handles - they should now be clean strings from Liquid
-    const productHandles = [];
-    for (let i = 1; i <= 5; i++) {
-      const productHandle = settings['product_' + i];
-      if (productHandle && typeof productHandle === 'string' && productHandle.trim() !== '') {
-        productHandles.push(productHandle.trim());
-      }
+    // Ensure we have an array and filter out any empty values
+    if (!Array.isArray(productHandles)) {
+      console.error('Product handles is not an array:', productHandles);
+      this.modalContent.innerHTML = '<p style="text-align: center; padding: 40px;">Error loading product data.</p>';
+      this.showModal();
+      return;
     }
 
-    console.log('Product handles:', productHandles);
+    productHandles = productHandles.filter(handle => handle && handle.trim() !== '');
+
+    console.log('Filtered product handles:', productHandles);
 
     if (productHandles.length === 0) {
       this.modalContent.innerHTML = '<p style="text-align: center; padding: 40px;">No products linked to this look yet.</p>';

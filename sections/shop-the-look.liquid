@@ -45,20 +45,26 @@
 
     <div class="shop-the-look__carousel" data-carousel>
       {% for block in section.blocks %}
-        {%- capture look_products_json -%}
-        {
-          {%- if block.settings.product_1 != blank -%}"product_1":"{{ block.settings.product_1.handle }}",{%- endif -%}
-          {%- if block.settings.product_2 != blank -%}"product_2":"{{ block.settings.product_2.handle }}",{%- endif -%}
-          {%- if block.settings.product_3 != blank -%}"product_3":"{{ block.settings.product_3.handle }}",{%- endif -%}
-          {%- if block.settings.product_4 != blank -%}"product_4":"{{ block.settings.product_4.handle }}",{%- endif -%}
-          {%- if block.settings.product_5 != blank -%}"product_5":"{{ block.settings.product_5.handle }}",{%- endif -%}
-          "count":{{ block.settings | json | size }}
-        }
-        {%- endcapture -%}
+        {%- assign product_handles = "" | split: "" -%}
+        {%- if block.settings.product_1 != blank -%}
+          {%- assign product_handles = product_handles | push: block.settings.product_1.handle -%}
+        {%- endif -%}
+        {%- if block.settings.product_2 != blank -%}
+          {%- assign product_handles = product_handles | push: block.settings.product_2.handle -%}
+        {%- endif -%}
+        {%- if block.settings.product_3 != blank -%}
+          {%- assign product_handles = product_handles | push: block.settings.product_3.handle -%}
+        {%- endif -%}
+        {%- if block.settings.product_4 != blank -%}
+          {%- assign product_handles = product_handles | push: block.settings.product_4.handle -%}
+        {%- endif -%}
+        {%- if block.settings.product_5 != blank -%}
+          {%- assign product_handles = product_handles | push: block.settings.product_5.handle -%}
+        {%- endif -%}
         <div
           class="shop-look-card"
           data-look-id="{{ block.id }}"
-          data-look-products='{{ look_products_json | strip | escape }}'
+          data-look-products='{{ product_handles | json }}'
           {{ block.shopify_attributes }}
         >
           <div class="shop-look-card__image-wrapper">
