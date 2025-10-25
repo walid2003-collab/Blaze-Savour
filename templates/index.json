@@ -968,7 +968,7 @@
       "settings": {
         "title": "SHOP THE LOOK",
         "show_arrows": true,
-        "section_width": "page-width",
+        "section_width": "full-width",
         "color_scheme": "",
         "padding-block-start": 48,
         "padding-block-end": 48
