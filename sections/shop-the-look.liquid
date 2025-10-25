@@ -45,26 +45,19 @@
 
     <div class="shop-the-look__carousel" data-carousel>
       {% for block in section.blocks %}
-        {%- assign product_handles = "" | split: "" -%}
-        {%- if block.settings.product_1 != blank -%}
-          {%- assign product_handles = product_handles | push: block.settings.product_1.handle -%}
-        {%- endif -%}
-        {%- if block.settings.product_2 != blank -%}
-          {%- assign product_handles = product_handles | push: block.settings.product_2.handle -%}
-        {%- endif -%}
-        {%- if block.settings.product_3 != blank -%}
-          {%- assign product_handles = product_handles | push: block.settings.product_3.handle -%}
-        {%- endif -%}
-        {%- if block.settings.product_4 != blank -%}
-          {%- assign product_handles = product_handles | push: block.settings.product_4.handle -%}
-        {%- endif -%}
-        {%- if block.settings.product_5 != blank -%}
-          {%- assign product_handles = product_handles | push: block.settings.product_5.handle -%}
-        {%- endif -%}
+        {%- capture handles_string -%}
+          {%- if block.settings.product_1 != blank -%},{{ block.settings.product_1.handle }}{%- endif -%}
+          {%- if block.settings.product_2 != blank -%},{{ block.settings.product_2.handle }}{%- endif -%}
+          {%- if block.settings.product_3 != blank -%},{{ block.settings.product_3.handle }}{%- endif -%}
+          {%- if block.settings.product_4 != blank -%},{{ block.settings.product_4.handle }}{%- endif -%}
+          {%- if block.settings.product_5 != blank -%},{{ block.settings.product_5.handle }}{%- endif -%}
+        {%- endcapture -%}
+        {%- assign handles_clean = handles_string | strip | remove_first: "," -%}
+        {%- assign handles_array = handles_clean | split: "," -%}
         <div
           class="shop-look-card"
           data-look-id="{{ block.id }}"
-          data-look-products='{{ product_handles | json }}'
+          data-look-products='{{ handles_array | json }}'
           {{ block.shopify_attributes }}
         >
           <div class="shop-look-card__image-wrapper">
