@@ -964,6 +964,9 @@
       "block_order": [
         "shop_look_card_4Vjexd"
       ],
+      "custom_css": [
+        "h2{font-family: \"barlow_condensed_n6\";}"
+      ],
       "name": "Shop The Look",
       "settings": {
         "title": "SHOP THE LOOK",
