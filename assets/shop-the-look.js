@@ -378,70 +378,63 @@ class ShopTheLook {
 
       console.log('Cart state:', cart);
 
-      // Step 2: Try multiple section names to find the cart drawer
+      // Step 2: Fetch the full cart page HTML with cache-busting
       const timestamp = new Date().getTime();
-      const sectionNames = ['cart-drawer', 'cart-notification', 'main-cart-items', 'cart-items'];
-      let sectionsData = null;
-      let foundSectionName = null;
-
-      for (const sectionName of sectionNames) {
-        try {
-          const sectionsResponse = await fetch(`/?sections=${sectionName}&t=${timestamp}`, {
-            headers: {
-              'Cache-Control': 'no-cache',
-              'Pragma': 'no-cache'
-            }
-          });
-          const data = await sectionsResponse.json();
-          console.log(`Trying section: ${sectionName}`, data);
-
-          if (data[sectionName] && data[sectionName] !== null) {
-            sectionsData = data;
-            foundSectionName = sectionName;
-            console.log(`Found working section: ${sectionName}`);
-            break;
-          }
-        } catch (e) {
-          console.log(`Section ${sectionName} failed:`, e);
+      const cartPageResponse = await fetch(`/cart?t=${timestamp}`, {
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
         }
+      });
+      const cartPageHTML = await cartPageResponse.text();
+
+      console.log('Fetched cart page HTML');
+
+      // Step 3: Parse the HTML to extract cart drawer
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(cartPageHTML, 'text/html');
+
+      // Try to find cart drawer in the fetched HTML
+      const newCartDrawer = doc.querySelector('cart-drawer') ||
+                           doc.querySelector('#cart-drawer') ||
+                           doc.querySelector('[id*="CartDrawer"]') ||
+                           doc.querySelector('.cart-drawer');
+
+      console.log('Found cart drawer in page:', !!newCartDrawer);
+
+      // Step 4: Update the existing cart drawer on the current page
+      const currentCartDrawer = document.querySelector('cart-drawer') ||
+                               document.querySelector('#cart-drawer') ||
+                               document.querySelector('[id*="CartDrawer"]') ||
+                               document.querySelector('.cart-drawer');
+
+      if (currentCartDrawer && newCartDrawer) {
+        currentCartDrawer.innerHTML = newCartDrawer.innerHTML;
+        console.log('Cart drawer HTML updated from /cart page');
+      } else {
+        console.log('Could not find cart drawer elements:', {
+          current: !!currentCartDrawer,
+          new: !!newCartDrawer
+        });
       }
 
-      // Step 3: Update cart drawer if we found the section
-      if (sectionsData && foundSectionName) {
-        const cartDrawer = document.querySelector('cart-drawer') ||
-                          document.querySelector('#cart-drawer') ||
-                          document.querySelector('[id*="CartDrawer"]');
-
-        if (cartDrawer) {
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = sectionsData[foundSectionName];
-          const newCartDrawerContent = tempDiv.querySelector('cart-drawer') ||
-                                       tempDiv.querySelector('#cart-drawer') ||
-                                       tempDiv.querySelector('[id*="CartDrawer"]');
-
-          if (newCartDrawerContent) {
-            cartDrawer.innerHTML = newCartDrawerContent.innerHTML;
-            console.log('Cart drawer HTML updated');
-          }
-        }
-      }
-
-      // Step 4: Update cart count in header
+      // Step 5: Update cart count in header
       const cartCount = document.querySelector('.header__icon--cart .cart-count-bubble span') ||
                        document.querySelector('[data-cart-count]') ||
                        document.querySelector('.cart-count');
       if (cartCount) {
         cartCount.textContent = cart.item_count;
+        console.log('Updated cart count to:', cart.item_count);
       }
 
-      // Step 5: Dispatch cart change events with the cart data
+      // Step 6: Dispatch cart change events with the cart data
       document.dispatchEvent(new CustomEvent('cart:change', {
         detail: { cart }
       }));
       document.dispatchEvent(new CustomEvent('cart:refresh'));
       document.dispatchEvent(new CustomEvent('cart:updated'));
 
-      // Step 6: Wait then open drawer
+      // Step 7: Wait then open drawer
       setTimeout(() => {
         this.openCartDrawer();
       }, 300);
