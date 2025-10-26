@@ -426,11 +426,13 @@ class ShopTheLook {
   }
 
   formatMoney(cents) {
-    const dollars = cents / 100;
-    return new Intl.NumberFormat('en-US', {
+    const egp = cents / 100;
+    return new Intl.NumberFormat('en-EG', {
       style: 'currency',
-      currency: 'USD'
-    }).format(dollars);
+      currency: 'EGP',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(egp);
   }
 }
 
