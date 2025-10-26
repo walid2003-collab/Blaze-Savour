@@ -977,11 +977,62 @@
             "product_4": "",
             "product_5": ""
           }
+        },
+        "shop_look_card_L6zfGE": {
+          "type": "shop-look-card",
+          "settings": {
+            "influencer_handle": "",
+            "button_text": "GET THE LOOK",
+            "button_text_font": "work_sans_n4",
+            "button_color": "#ffffff",
+            "button_text_color": "#000000",
+            "overlay_color": "#0000004d",
+            "product_1": "",
+            "product_2": "",
+            "product_3": "",
+            "product_4": "",
+            "product_5": ""
+          }
+        },
+        "shop_look_card_TnKUUJ": {
+          "type": "shop-look-card",
+          "settings": {
+            "influencer_handle": "",
+            "button_text": "GET THE LOOK",
+            "button_text_font": "work_sans_n4",
+            "button_color": "#ffffff",
+            "button_text_color": "#000000",
+            "overlay_color": "#0000004d",
+            "product_1": "",
+            "product_2": "",
+            "product_3": "",
+            "product_4": "",
+            "product_5": ""
+          }
+        },
+        "shop_look_card_Vy9ezi": {
+          "type": "shop-look-card",
+          "settings": {
+            "influencer_handle": "",
+            "button_text": "GET THE LOOK",
+            "button_text_font": "work_sans_n4",
+            "button_color": "#ffffff",
+            "button_text_color": "#000000",
+            "overlay_color": "#0000004d",
+            "product_1": "",
+            "product_2": "",
+            "product_3": "",
+            "product_4": "",
+            "product_5": ""
+          }
         }
       },
       "block_order": [
         "shop_look_card_4Vjexd",
-        "shop_look_card_KEjAxD"
+        "shop_look_card_KEjAxD",
+        "shop_look_card_L6zfGE",
+        "shop_look_card_TnKUUJ",
+        "shop_look_card_Vy9ezi"
       ],
       "custom_css": [],
       "name": "Shop The Look",
