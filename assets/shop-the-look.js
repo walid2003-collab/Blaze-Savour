@@ -219,15 +219,16 @@ class ShopTheLook {
       variantSelectors = '<div class="shop-look-variant-selectors">' + selectorsHTML + '</div>';
     }
 
+
     div.innerHTML = '<div class="shop-look-product__image-wrapper">' +
-  '<img src="' + imageUrl + '" alt="' + this.escapeHtml(product.title) + '" class="shop-look-product__image" loading="lazy">' +
-  (hasNewTag ? '<span class="shop-look-badge">NEW</span>' : '') +
-  '</div>' +
-  '<div class="shop-look-product__info">' +
-  '<h4 class="shop-look-product__title">' + this.escapeHtml(product.title) + '</h4>' +
-  '<p class="shop-look-product__price">EGP ' + this.formatMoney(product.price) + '</p>' +
-  variantSelectors +
-  '</div>';
+      '<img src="' + imageUrl + '" alt="' + this.escapeHtml(product.title) + '" class="shop-look-product__image" loading="lazy">' +
+      (hasNewTag ? '<span class="shop-look-badge">NEW</span>' : '') +
+      '</div>' +
+      '<div class="shop-look-product__info">' +
+      '<h4 class="shop-look-product__title">' + this.escapeHtml(product.title) + '</h4>' +
+      '<p class="shop-look-product__price">' + this.formatMoney(product.price) + '</p>' +
+      variantSelectors +
+      '</div>';
 
 
     // Add event listeners for variant selection
@@ -373,3 +374,4 @@ if (document.readyState === 'loading') {
   new ShopTheLook();
 
 }
+
