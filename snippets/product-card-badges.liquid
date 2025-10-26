@@ -20,6 +20,14 @@
       assign is_new_product = true
     endif
   endif
+
+  # Calculate sale percentage if product is on sale
+  assign sale_percentage = 0
+  if product.compare_at_price > product.price and product.available
+    assign price_difference = product.compare_at_price | minus: product.price
+    assign percentage = price_difference | times: 100.0 | divided_by: product.compare_at_price
+    assign sale_percentage = percentage | round
+  endif
 %}
 
 <div
@@ -32,14 +40,14 @@
   {%- if product.available == false or product.compare_at_price > product.price and product.available -%}
     <div
       class="
-        product-badges__badge product-badges__badge--rectangle
-        {% if product.available == false %} color-{{ settings.badge_sold_out_color_scheme }}{% elsif product.compare_at_price > product.price %} color-{{ settings.badge_sale_color_scheme }}{% endif %}
+        product-badges__badge product-badges__badge--rectangle product-badges__badge--custom
+        {% if product.available == false %} product-badges__badge--sold-out{% elsif product.compare_at_price > product.price %} product-badges__badge--sale{% endif %}
       "
     >
       {%- if product.available == false -%}
-        {{ 'content.product_badge_sold_out' | t }}
+        SOLD OUT
       {%- elsif product.compare_at_price > product.price -%}
-        {{ 'content.product_badge_sale' | t }}
+        {{ sale_percentage }}% OFF
       {%- endif -%}
     </div>
   {%- endif -%}
@@ -97,6 +105,28 @@
     padding-inline: var(--badge-rectangle-padding-inline);
   }
 
+  /* Custom badge styling - white background, black text */
+  .product-badges__badge--custom {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+    font-weight: 600;
+    font-size: var(--font-size--xs);
+    padding-block: 4px;
+    padding-inline: 8px;
+    border-radius: 4px;
+  }
+
+  /* SOLD OUT badge specific styling */
+  .product-badges__badge--sold-out {
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* SALE badge specific styling */
+  .product-badges__badge--sale {
+    text-transform: uppercase;
+  }
+
   /* NEW badge styling - white background, black text */
   .product-badges--new {
     z-index: calc(var(--layer-flat) + 1);
@@ -110,5 +140,6 @@
     padding-block: 4px;
     padding-inline: 8px;
     border-radius: 4px;
+    text-transform: uppercase;
   }
 {% endstylesheet %}
