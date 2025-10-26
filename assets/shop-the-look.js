@@ -3,9 +3,6 @@
  * Handles carousel navigation, modal display, and AJAX cart functionality
  */
 
-// Import cart events from theme
-import { CartAddEvent } from '@theme/events';
-
 class ShopTheLook {
   constructor() {
     this.carousel = document.querySelector('[data-carousel]');
@@ -371,15 +368,22 @@ class ShopTheLook {
 
         this.addAllBtn.textContent = 'ADDED!';
 
-        // Dispatch CartAddEvent - this will trigger cart components to update
+        // Dispatch cart:update event - this will trigger cart components to update
         // and the cart drawer to open (if it has auto-open attribute)
-        document.dispatchEvent(
-          new CartAddEvent({}, 'shop-the-look', {
-            source: 'shop-the-look',
-            itemCount: items.length,
-            sections: responseData.sections,
-          })
-        );
+        // This matches the CartAddEvent structure from @theme/events
+        const cartUpdateEvent = new CustomEvent('cart:update', {
+          bubbles: true,
+          detail: {
+            resource: {},
+            sourceId: 'shop-the-look',
+            data: {
+              source: 'shop-the-look',
+              itemCount: items.length,
+              sections: responseData.sections,
+            }
+          }
+        });
+        document.dispatchEvent(cartUpdateEvent);
 
         // Close modal after a short delay
         setTimeout(() => {
