@@ -371,79 +371,42 @@ class ShopTheLook {
   }
 
   async refreshAndOpenCart() {
-    try {
-      // Step 1: Fetch the current cart state to get updated data
-      const cartResponse = await fetch('/cart.js');
-      const cart = await cartResponse.json();
+    // Close modal first
+    this.closeModal();
 
-      console.log('Cart state:', cart);
+    // Wait a moment for modal to close
+    setTimeout(() => {
+      // Simply click the cart icon - this triggers the theme's built-in
+      // cart drawer opening mechanism which should refresh the cart
+      this.clickCartIcon();
+    }, 300);
+  }
 
-      // Step 2: Fetch the full cart page HTML with cache-busting
-      const timestamp = new Date().getTime();
-      const cartPageResponse = await fetch(`/cart?t=${timestamp}`, {
-        headers: {
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache'
-        }
-      });
-      const cartPageHTML = await cartPageResponse.text();
+  clickCartIcon() {
+    // Try to find and click the cart icon/button
+    const cartSelectors = [
+      '[data-cart-icon]',
+      '.header__icon--cart',
+      '.cart-icon',
+      'a[href="/cart"]',
+      'a[href*="/cart"]',
+      '[aria-label*="cart" i]',
+      '[aria-label*="Cart" i]',
+      'summary.header__icon--cart',
+      'button[name="cart"]'
+    ];
 
-      console.log('Fetched cart page HTML');
-
-      // Step 3: Parse the HTML to extract cart drawer
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(cartPageHTML, 'text/html');
-
-      // Try to find cart drawer in the fetched HTML
-      const newCartDrawer = doc.querySelector('cart-drawer') ||
-                           doc.querySelector('#cart-drawer') ||
-                           doc.querySelector('[id*="CartDrawer"]') ||
-                           doc.querySelector('.cart-drawer');
-
-      console.log('Found cart drawer in page:', !!newCartDrawer);
-
-      // Step 4: Update the existing cart drawer on the current page
-      const currentCartDrawer = document.querySelector('cart-drawer') ||
-                               document.querySelector('#cart-drawer') ||
-                               document.querySelector('[id*="CartDrawer"]') ||
-                               document.querySelector('.cart-drawer');
-
-      if (currentCartDrawer && newCartDrawer) {
-        currentCartDrawer.innerHTML = newCartDrawer.innerHTML;
-        console.log('Cart drawer HTML updated from /cart page');
-      } else {
-        console.log('Could not find cart drawer elements:', {
-          current: !!currentCartDrawer,
-          new: !!newCartDrawer
-        });
+    for (const selector of cartSelectors) {
+      const cartButton = document.querySelector(selector);
+      if (cartButton) {
+        console.log('Clicking cart button:', selector);
+        cartButton.click();
+        return true;
       }
-
-      // Step 5: Update cart count in header
-      const cartCount = document.querySelector('.header__icon--cart .cart-count-bubble span') ||
-                       document.querySelector('[data-cart-count]') ||
-                       document.querySelector('.cart-count');
-      if (cartCount) {
-        cartCount.textContent = cart.item_count;
-        console.log('Updated cart count to:', cart.item_count);
-      }
-
-      // Step 6: Dispatch cart change events with the cart data
-      document.dispatchEvent(new CustomEvent('cart:change', {
-        detail: { cart }
-      }));
-      document.dispatchEvent(new CustomEvent('cart:refresh'));
-      document.dispatchEvent(new CustomEvent('cart:updated'));
-
-      // Step 7: Wait then open drawer
-      setTimeout(() => {
-        this.openCartDrawer();
-      }, 300);
-
-    } catch (error) {
-      console.error('Error refreshing cart:', error);
-      // Fallback: just try to open the drawer
-      this.openCartDrawer();
     }
+
+    console.log('Could not find cart button');
+    return false;
   }
 
   openCartDrawer() {
