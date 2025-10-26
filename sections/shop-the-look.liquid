@@ -233,7 +233,10 @@
 
   .shop-the-look__header {
     text-align: left;
-    margin-bottom: 20px;
+    margin-bottom: -50px; /* Pull up to align with arrows */
+    position: relative;
+    z-index: 1;
+    padding-left: 25px; /* 25px indent */
   }
 
   .shop-the-look__title {
@@ -243,6 +246,7 @@
     text-transform: uppercase;
     letter-spacing: 2px;
     margin: 0;
+    line-height: 50px; /* Match arrow height for vertical alignment */
   }
 
   .shop-the-look__carousel-wrapper {
@@ -411,9 +415,15 @@
   }
 
   @media screen and (max-width: 768px) {
+    .shop-the-look__header {
+      margin-bottom: 20px; /* Reset to normal spacing on mobile */
+      padding-left: 0; /* Remove indent on mobile */
+    }
+
     .shop-the-look__title {
       font-size: {{ section.settings.title_font_size_mobile }}px !important;
       font-weight: {{ section.settings.title_font_weight_mobile }} !important;
+      line-height: normal; /* Reset line-height on mobile */
     }
 
     .shop-look-card__handle {
@@ -427,13 +437,11 @@
     }
 
     .shop-the-look__arrow {
-      width: 40px;
-      height: 40px;
+      display: none; /* Hide arrows on mobile */
     }
 
-    .shop-the-look__arrow svg {
-      width: 20px;
-      height: 20px;
+    .shop-the-look__carousel-wrapper {
+      padding-top: 0; /* Remove padding since arrows are hidden */
     }
 
     .shop-look-card {
