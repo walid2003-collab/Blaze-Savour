@@ -990,7 +990,7 @@
         "card_button_font_weight_desktop": "600",
         "card_button_font_weight_mobile": "600",
         "modal_title_font": "assistant_n4",
-        "modal_title_font_size_desktop": 16,
+        "modal_title_font_size_desktop": 10,
         "modal_title_font_size_mobile": 16,
         "modal_title_font_weight_desktop": "700",
         "modal_title_font_weight_mobile": "700",
