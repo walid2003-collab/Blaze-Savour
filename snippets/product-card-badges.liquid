@@ -8,6 +8,20 @@
   {% render 'product-card-badges', product: product, settings: settings %}
 {%- enddoc -%}
 
+{% liquid
+  # Check if product is new (published within last 30 days)
+  assign is_new_product = false
+  if product.published_at
+    assign now = 'now' | date: '%s' | times: 1
+    assign published_timestamp = product.published_at | date: '%s' | times: 1
+    assign seconds_in_30_days = 2592000
+    assign time_diff = now | minus: published_timestamp
+    if time_diff <= seconds_in_30_days
+      assign is_new_product = true
+    endif
+  endif
+%}
+
 <div
   class="product-badges product-badges--{{ settings.badge_position }}"
   style="
@@ -30,6 +44,14 @@
     </div>
   {%- endif -%}
 </div>
+
+{%- if is_new_product -%}
+  <div class="product-badges product-badges--bottom-left product-badges--new">
+    <div class="product-badges__badge product-badges__badge--rectangle product-badges__badge--new">
+      NEW
+    </div>
+  </div>
+{%- endif -%}
 
 {% stylesheet %}
   .product-badges {
@@ -73,5 +95,20 @@
   .product-badges__badge--rectangle {
     padding-block: var(--badge-rectangle-padding-block);
     padding-inline: var(--badge-rectangle-padding-inline);
+  }
+
+  /* NEW badge styling - white background, black text */
+  .product-badges--new {
+    z-index: calc(var(--layer-flat) + 1);
+  }
+
+  .product-badges__badge--new {
+    background-color: #FFFFFF;
+    color: #000000;
+    font-weight: 600;
+    font-size: var(--font-size--xs);
+    padding-block: 4px;
+    padding-inline: 8px;
+    border-radius: 4px;
   }
 {% endstylesheet %}
