@@ -948,7 +948,7 @@
           "type": "shop-look-card",
           "settings": {
             "look_image": "shopify://shop_images/IMG_8526_1_1.png",
-            "influencer_handle": "@hagar",
+            "influencer_handle": "@hagarellshafey",
             "button_text": "GET THE LOOK",
             "button_text_font": "barlow_condensed_n6",
             "button_color": "#ffffff",
@@ -957,22 +957,22 @@
             "product_1": "",
             "product_2": "",
             "product_3": "core-cropped-hoodie",
-            "product_4": "core-distressed-crew",
+            "product_4": "",
             "product_5": ""
           }
         },
         "shop_look_card_KEjAxD": {
           "type": "shop-look-card",
           "settings": {
-            "look_image": "shopify://shop_images/140_c632c24b-6863-4671-a7e2-600e7d224075.png",
-            "influencer_handle": "@AI-1234",
+            "look_image": "shopify://shop_images/IMG_8523_5.png",
+            "influencer_handle": "@malak.hassann",
             "button_text": "GET THE LOOK",
             "button_text_font": "barlow_condensed_n4",
             "button_color": "#ffffff",
             "button_text_color": "#000000",
             "overlay_color": "#0000004d",
-            "product_1": "core-midi-jacket",
-            "product_2": "core-contrast-leggings",
+            "product_1": "prime-flexvent-tank",
+            "product_2": "prime-training-leggings",
             "product_3": "",
             "product_4": "",
             "product_5": ""
@@ -981,14 +981,15 @@
         "shop_look_card_L6zfGE": {
           "type": "shop-look-card",
           "settings": {
-            "influencer_handle": "",
+            "look_image": "shopify://shop_images/IMG_8525_5.png",
+            "influencer_handle": "@safi_bayoumy",
             "button_text": "GET THE LOOK",
             "button_text_font": "work_sans_n4",
             "button_color": "#ffffff",
             "button_text_color": "#000000",
             "overlay_color": "#0000004d",
-            "product_1": "",
-            "product_2": "",
+            "product_1": "prime-cami-tank-with-shelf",
+            "product_2": "prime-pocket-leggings",
             "product_3": "",
             "product_4": "",
             "product_5": ""
@@ -1048,9 +1049,9 @@
         "title_font_size_mobile": 36,
         "title_font_weight_desktop": "700",
         "title_font_weight_mobile": "700",
-        "handle_font": "barlow_condensed_n5",
-        "handle_font_size_desktop": 12,
-        "handle_font_size_mobile": 12,
+        "handle_font": "barlow_n5",
+        "handle_font_size_desktop": 10,
+        "handle_font_size_mobile": 10,
         "handle_font_weight_desktop": "500",
         "handle_font_weight_mobile": "500",
         "card_button_font": "barlow_n5",
