@@ -1,6 +1,27 @@
 
-
 {%- assign block_settings = block.settings -%}
+
+{% liquid
+  # Check if product is new (published within last 30 days)
+  assign is_new_product = false
+  if closest.product.published_at
+    assign now = 'now' | date: '%s' | times: 1
+    assign published_timestamp = closest.product.published_at | date: '%s' | times: 1
+    assign seconds_in_30_days = 2592000
+    assign time_diff = now | minus: published_timestamp
+    if time_diff <= seconds_in_30_days
+      assign is_new_product = true
+    endif
+  endif
+
+  # Calculate sale percentage if product is on sale
+  assign sale_percentage = 0
+  if closest.product.compare_at_price > closest.product.price and closest.product.available
+    assign price_difference = closest.product.compare_at_price | minus: closest.product.price
+    assign percentage = price_difference | times: 100.0 | divided_by: closest.product.compare_at_price
+    assign sale_percentage = percentage | round
+  endif
+%}
 
 <div
   id="ProductInformation-{{ section.id }}"
@@ -24,6 +45,19 @@
         {{- product.title }}
       </a>
     </div>
+
+    {%- comment -%} Product page badges - NEW and SALE {%- endcomment -%}
+    {%- if is_new_product or sale_percentage > 0 -%}
+      <div class="product-page-badges">
+        {%- if is_new_product -%}
+          <span class="product-page-badge product-page-badge--new">NEW</span>
+        {%- endif -%}
+        {%- if sale_percentage > 0 -%}
+          <span class="product-page-badge product-page-badge--sale">{{ sale_percentage }}% OFF</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
     {% content_for 'blocks' %}
   {% endcapture %}
 
@@ -40,6 +74,34 @@
 
   .view-product-title {
     display: none;
+  }
+
+  /* Product page badges - above product title */
+  .product-page-badges {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .product-page-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background-color: #F5F5F5;
+    color: #000000;
+  }
+
+  .product-page-badge--new {
+    /* Light grey background, black text */
+  }
+
+  .product-page-badge--sale {
+    /* Light grey background, black text */
   }
 
   /* Container styles */
