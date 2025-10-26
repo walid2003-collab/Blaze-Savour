@@ -372,28 +372,59 @@ class ShopTheLook {
 
   async refreshAndOpenCart() {
     try {
-      // Fetch the updated cart drawer HTML from Shopify
-      const response = await fetch('/?sections=cart-drawer');
-      const data = await response.json();
+      // Step 1: Fetch the current cart state to get updated data
+      const cartResponse = await fetch('/cart.js');
+      const cart = await cartResponse.json();
 
-      // Find the cart drawer element
+      console.log('Cart state:', cart);
+
+      // Step 2: Dispatch cart change events with the cart data
+      document.dispatchEvent(new CustomEvent('cart:change', {
+        detail: { cart }
+      }));
+
+      // Step 3: Fetch fresh cart drawer HTML with cache-busting timestamp
+      const timestamp = new Date().getTime();
+      const sectionsResponse = await fetch(`/?sections=cart-drawer&t=${timestamp}`, {
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      });
+      const sectionsData = await sectionsResponse.json();
+
+      console.log('Sections data:', sectionsData);
+
+      // Step 4: Find and update the cart drawer element
       const cartDrawer = document.querySelector('cart-drawer');
 
-      if (cartDrawer && data['cart-drawer']) {
+      if (cartDrawer && sectionsData['cart-drawer']) {
         // Replace the cart drawer's inner HTML with fresh content
         const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = data['cart-drawer'];
+        tempDiv.innerHTML = sectionsData['cart-drawer'];
         const newCartDrawerContent = tempDiv.querySelector('cart-drawer');
 
         if (newCartDrawerContent) {
           cartDrawer.innerHTML = newCartDrawerContent.innerHTML;
+          console.log('Cart drawer HTML updated');
         }
       }
 
-      // Small delay to ensure DOM is updated, then open
+      // Step 5: Update cart count in header
+      const cartCount = document.querySelector('.header__icon--cart .cart-count-bubble span') ||
+                       document.querySelector('[data-cart-count]');
+      if (cartCount) {
+        cartCount.textContent = cart.item_count;
+      }
+
+      // Step 6: Dispatch additional update events
+      document.dispatchEvent(new CustomEvent('cart:refresh'));
+      document.dispatchEvent(new CustomEvent('cart:updated'));
+
+      // Step 7: Wait a bit longer for DOM and events to process, then open
       setTimeout(() => {
         this.openCartDrawer();
-      }, 100);
+      }, 200);
 
     } catch (error) {
       console.error('Error refreshing cart:', error);
