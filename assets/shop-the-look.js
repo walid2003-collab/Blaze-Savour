@@ -3,6 +3,9 @@
  * Handles carousel navigation, modal display, and AJAX cart functionality
  */
 
+// Import cart events from theme
+import { CartAddEvent } from '@theme/events';
+
 class ShopTheLook {
   constructor() {
     this.carousel = document.querySelector('[data-carousel]');
@@ -339,27 +342,49 @@ class ShopTheLook {
         return;
       }
 
-      // Add all items to cart
-      const response = await fetch('/cart/add.js', {
+      // Get cart section IDs to refresh (same approach as product-form.js)
+      const cartItemsComponents = document.querySelectorAll('cart-items-component');
+      const sections = [];
+      cartItemsComponents.forEach((item) => {
+        if (item instanceof HTMLElement && item.dataset.sectionId) {
+          sections.push(item.dataset.sectionId);
+        }
+      });
+
+      // Add all items to cart with sections parameter
+      const formData = new FormData();
+      formData.append('items', JSON.stringify(items));
+      if (sections.length > 0) {
+        formData.append('sections', sections.join(','));
+      }
+
+      const response = await fetch(Theme.routes.cart_add_url, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Accept': 'application/javascript',
         },
-        body: JSON.stringify({ items: items })
+        body: formData
       });
 
       if (response.ok) {
+        const responseData = await response.json();
+
         this.addAllBtn.textContent = 'ADDED!';
 
-        // Close modal
+        // Dispatch CartAddEvent - this will trigger cart components to update
+        // and the cart drawer to open (if it has auto-open attribute)
+        document.dispatchEvent(
+          new CartAddEvent({}, 'shop-the-look', {
+            source: 'shop-the-look',
+            itemCount: items.length,
+            sections: responseData.sections,
+          })
+        );
+
+        // Close modal after a short delay
         setTimeout(() => {
           this.closeModal();
         }, 300);
-
-        // Refresh and open cart drawer
-        setTimeout(() => {
-          this.refreshAndOpenCart();
-        }, 400);
       } else {
         throw new Error('Failed to add to cart');
       }
@@ -367,78 +392,6 @@ class ShopTheLook {
       console.error('Error adding to cart:', error);
       this.addAllBtn.textContent = 'ERROR - TRY AGAIN';
       this.addAllBtn.disabled = false;
-    }
-  }
-
-  async refreshAndOpenCart() {
-    // Close modal first
-    this.closeModal();
-
-    // Wait a moment for modal to close
-    setTimeout(() => {
-      // Simply click the cart icon - this triggers the theme's built-in
-      // cart drawer opening mechanism which should refresh the cart
-      this.clickCartIcon();
-    }, 300);
-  }
-
-  clickCartIcon() {
-    // Try to find and click the cart icon/button
-    const cartSelectors = [
-      '[data-cart-icon]',
-      '.header__icon--cart',
-      '.cart-icon',
-      'a[href="/cart"]',
-      'a[href*="/cart"]',
-      '[aria-label*="cart" i]',
-      '[aria-label*="Cart" i]',
-      'summary.header__icon--cart',
-      'button[name="cart"]'
-    ];
-
-    for (const selector of cartSelectors) {
-      const cartButton = document.querySelector(selector);
-      if (cartButton) {
-        console.log('Clicking cart button:', selector);
-        cartButton.click();
-        return true;
-      }
-    }
-
-    console.log('Could not find cart button');
-    return false;
-  }
-
-  openCartDrawer() {
-    // Try multiple methods to open cart drawer (different themes use different approaches)
-
-    // Method 1: Click on cart icon/button
-    const cartButton = document.querySelector('[data-cart-icon]') ||
-                      document.querySelector('.cart-icon') ||
-                      document.querySelector('.header__icon--cart') ||
-                      document.querySelector('[aria-label*="cart" i]') ||
-                      document.querySelector('a[href*="cart"]');
-
-    if (cartButton) {
-      cartButton.click();
-      return;
-    }
-
-    // Method 2: Dispatch cart open events
-    document.dispatchEvent(new CustomEvent('cart:open'));
-    document.dispatchEvent(new CustomEvent('cart:show'));
-    window.dispatchEvent(new CustomEvent('cart:refresh'));
-
-    // Method 3: Try to open cart drawer if it exists
-    const cartDrawer = document.querySelector('cart-drawer') ||
-                      document.querySelector('[id*="cart-drawer"]') ||
-                      document.querySelector('[id*="CartDrawer"]');
-
-    if (cartDrawer) {
-      cartDrawer.classList.add('active', 'open');
-      if (typeof cartDrawer.open === 'function') {
-        cartDrawer.open();
-      }
     }
   }
 
