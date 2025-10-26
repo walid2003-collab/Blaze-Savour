@@ -351,18 +351,15 @@ class ShopTheLook {
       if (response.ok) {
         this.addAllBtn.textContent = 'ADDED!';
 
-        // Trigger cart update events first
-        this.refreshCart();
-
         // Close modal
         setTimeout(() => {
           this.closeModal();
         }, 300);
 
-        // Open cart drawer
+        // Refresh and open cart drawer
         setTimeout(() => {
-          this.openCartDrawer();
-        }, 500);
+          this.refreshAndOpenCart();
+        }, 400);
       } else {
         throw new Error('Failed to add to cart');
       }
@@ -373,34 +370,36 @@ class ShopTheLook {
     }
   }
 
-  refreshCart() {
-    // Trigger various cart refresh events that themes listen to
-    document.dispatchEvent(new CustomEvent('cart:refresh'));
-    document.dispatchEvent(new CustomEvent('cart:updated'));
-    document.dispatchEvent(new CustomEvent('cart:change'));
+  async refreshAndOpenCart() {
+    try {
+      // Fetch the updated cart drawer HTML from Shopify
+      const response = await fetch('/?sections=cart-drawer');
+      const data = await response.json();
 
-    // Trigger a fetch event to update cart
-    fetch('/cart.js')
-      .then(response => response.json())
-      .then(cart => {
-        // Dispatch event with cart data
-        document.dispatchEvent(new CustomEvent('cart:update', { detail: cart }));
+      // Find the cart drawer element
+      const cartDrawer = document.querySelector('cart-drawer');
 
-        // Try to update cart drawer if it has a refresh method
-        const cartDrawer = document.querySelector('cart-drawer');
-        if (cartDrawer && typeof cartDrawer.refresh === 'function') {
-          cartDrawer.refresh();
+      if (cartDrawer && data['cart-drawer']) {
+        // Replace the cart drawer's inner HTML with fresh content
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = data['cart-drawer'];
+        const newCartDrawerContent = tempDiv.querySelector('cart-drawer');
+
+        if (newCartDrawerContent) {
+          cartDrawer.innerHTML = newCartDrawerContent.innerHTML;
         }
+      }
 
-        // Update cart count if element exists
-        const cartCount = document.querySelector('[data-cart-count]') ||
-                         document.querySelector('.cart-count') ||
-                         document.querySelector('.cart__count');
-        if (cartCount) {
-          cartCount.textContent = cart.item_count;
-        }
-      })
-      .catch(error => console.error('Error refreshing cart:', error));
+      // Small delay to ensure DOM is updated, then open
+      setTimeout(() => {
+        this.openCartDrawer();
+      }, 100);
+
+    } catch (error) {
+      console.error('Error refreshing cart:', error);
+      // Fallback: just try to open the drawer
+      this.openCartDrawer();
+    }
   }
 
   openCartDrawer() {
