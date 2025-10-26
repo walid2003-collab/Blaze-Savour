@@ -23,54 +23,6 @@ class ShopTheLook {
   init() {
     this.setupEventListeners();
     this.setupSwipe();
-    this.checkAndOpenCart();
-  }
-
-  checkAndOpenCart() {
-    // Check if we need to open cart after page reload
-    if (sessionStorage.getItem('openCartAfterReload') === 'true') {
-      sessionStorage.removeItem('openCartAfterReload');
-
-      // Wait for page to fully load
-      setTimeout(() => {
-        // Try multiple methods to open cart (different themes use different approaches)
-
-        // Method 1: Click on cart icon/button
-        const cartButton = document.querySelector('[data-cart-icon]') ||
-                          document.querySelector('.cart-icon') ||
-                          document.querySelector('[href="/cart"]') ||
-                          document.querySelector('a[href*="cart"]');
-
-        if (cartButton) {
-          cartButton.click();
-          return;
-        }
-
-        // Method 2: Dispatch cart open event
-        document.dispatchEvent(new CustomEvent('cart:open'));
-        document.dispatchEvent(new CustomEvent('cart:show'));
-
-        // Method 3: Try to open cart drawer if it exists
-        const cartDrawer = document.querySelector('cart-drawer') ||
-                          document.querySelector('[id*="cart-drawer"]') ||
-                          document.querySelector('[id*="CartDrawer"]');
-
-        if (cartDrawer) {
-          cartDrawer.classList.add('active', 'open');
-        }
-
-        // Method 4: As fallback, navigate to cart page
-        setTimeout(() => {
-          const isCartOpen = document.querySelector('.cart-drawer.active') ||
-                            document.querySelector('cart-drawer.active') ||
-                            document.body.classList.contains('cart-open');
-
-          if (!isCartOpen) {
-            window.location.href = '/cart';
-          }
-        }, 500);
-      }, 300);
-    }
   }
 
   setupEventListeners() {
@@ -399,13 +351,15 @@ class ShopTheLook {
       if (response.ok) {
         this.addAllBtn.textContent = 'ADDED!';
 
-        // Store flag to open cart after reload
-        sessionStorage.setItem('openCartAfterReload', 'true');
-
-        // Refresh page after a short delay
+        // Close modal
         setTimeout(() => {
-          window.location.reload();
-        }, 500);
+          this.closeModal();
+        }, 300);
+
+        // Open cart drawer
+        setTimeout(() => {
+          this.openCartDrawer();
+        }, 400);
       } else {
         throw new Error('Failed to add to cart');
       }
@@ -413,6 +367,39 @@ class ShopTheLook {
       console.error('Error adding to cart:', error);
       this.addAllBtn.textContent = 'ERROR - TRY AGAIN';
       this.addAllBtn.disabled = false;
+    }
+  }
+
+  openCartDrawer() {
+    // Try multiple methods to open cart drawer (different themes use different approaches)
+
+    // Method 1: Click on cart icon/button
+    const cartButton = document.querySelector('[data-cart-icon]') ||
+                      document.querySelector('.cart-icon') ||
+                      document.querySelector('.header__icon--cart') ||
+                      document.querySelector('[aria-label*="cart" i]') ||
+                      document.querySelector('a[href*="cart"]');
+
+    if (cartButton) {
+      cartButton.click();
+      return;
+    }
+
+    // Method 2: Dispatch cart open events
+    document.dispatchEvent(new CustomEvent('cart:open'));
+    document.dispatchEvent(new CustomEvent('cart:show'));
+    window.dispatchEvent(new CustomEvent('cart:refresh'));
+
+    // Method 3: Try to open cart drawer if it exists
+    const cartDrawer = document.querySelector('cart-drawer') ||
+                      document.querySelector('[id*="cart-drawer"]') ||
+                      document.querySelector('[id*="CartDrawer"]');
+
+    if (cartDrawer) {
+      cartDrawer.classList.add('active', 'open');
+      if (typeof cartDrawer.open === 'function') {
+        cartDrawer.open();
+      }
     }
   }
 
