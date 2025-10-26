@@ -351,6 +351,9 @@ class ShopTheLook {
       if (response.ok) {
         this.addAllBtn.textContent = 'ADDED!';
 
+        // Trigger cart update events first
+        this.refreshCart();
+
         // Close modal
         setTimeout(() => {
           this.closeModal();
@@ -359,7 +362,7 @@ class ShopTheLook {
         // Open cart drawer
         setTimeout(() => {
           this.openCartDrawer();
-        }, 400);
+        }, 500);
       } else {
         throw new Error('Failed to add to cart');
       }
@@ -368,6 +371,36 @@ class ShopTheLook {
       this.addAllBtn.textContent = 'ERROR - TRY AGAIN';
       this.addAllBtn.disabled = false;
     }
+  }
+
+  refreshCart() {
+    // Trigger various cart refresh events that themes listen to
+    document.dispatchEvent(new CustomEvent('cart:refresh'));
+    document.dispatchEvent(new CustomEvent('cart:updated'));
+    document.dispatchEvent(new CustomEvent('cart:change'));
+
+    // Trigger a fetch event to update cart
+    fetch('/cart.js')
+      .then(response => response.json())
+      .then(cart => {
+        // Dispatch event with cart data
+        document.dispatchEvent(new CustomEvent('cart:update', { detail: cart }));
+
+        // Try to update cart drawer if it has a refresh method
+        const cartDrawer = document.querySelector('cart-drawer');
+        if (cartDrawer && typeof cartDrawer.refresh === 'function') {
+          cartDrawer.refresh();
+        }
+
+        // Update cart count if element exists
+        const cartCount = document.querySelector('[data-cart-count]') ||
+                         document.querySelector('.cart-count') ||
+                         document.querySelector('.cart__count');
+        if (cartCount) {
+          cartCount.textContent = cart.item_count;
+        }
+      })
+      .catch(error => console.error('Error refreshing cart:', error));
   }
 
   openCartDrawer() {
