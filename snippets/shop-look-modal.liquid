@@ -32,6 +32,13 @@
 <div class="shop-look-toast" data-toast>Added to bag!</div>
 
 {% stylesheet %}
+  /* Load custom fonts */
+  {{ modal_title_font | font_face: font_display: 'swap' }}
+  {{ product_title_font | font_face: font_display: 'swap' }}
+  {{ product_price_font | font_face: font_display: 'swap' }}
+  {{ variant_selector_font | font_face: font_display: 'swap' }}
+  {{ add_button_font | font_face: font_display: 'swap' }}
+
   .shop-look-modal-overlay {
     position: fixed;
     top: 0;
@@ -86,7 +93,6 @@
 
   .shop-look-modal__title {
     font-family: {{ modal_title_font.family }}, {{ modal_title_font.fallback_families }} !important;
-    font-weight: {{ modal_title_font.weight }} !important;
     font-size: {{ modal_title_font_size_desktop }}px !important;
     font-weight: {{ modal_title_font_weight_desktop }} !important;
     text-transform: uppercase;
@@ -171,7 +177,6 @@
 
   .shop-look-product__title {
     font-family: {{ product_title_font.family }}, {{ product_title_font.fallback_families }} !important;
-    font-weight: {{ product_title_font.weight }} !important;
     font-size: {{ product_title_font_size_desktop }}px !important;
     font-weight: {{ product_title_font_weight_desktop }} !important;
     line-height: 1.4;
@@ -181,7 +186,6 @@
 
   .shop-look-product__price {
     font-family: {{ product_price_font.family }}, {{ product_price_font.fallback_families }} !important;
-    font-weight: {{ product_price_font.weight }} !important;
     font-size: {{ product_price_font_size_desktop }}px !important;
     font-weight: {{ product_price_font_weight_desktop }} !important;
     color: #000000;
@@ -200,7 +204,6 @@
 
   .shop-look-variant-select {
     font-family: {{ variant_selector_font.family }}, {{ variant_selector_font.fallback_families }} !important;
-    font-weight: {{ variant_selector_font.weight }} !important;
     font-size: {{ variant_selector_font_size_desktop }}px !important;
     font-weight: {{ variant_selector_font_weight_desktop }} !important;
     width: 100%;
@@ -227,7 +230,6 @@
 
   .shop-look-variant-select option {
     font-family: {{ variant_selector_font.family }}, {{ variant_selector_font.fallback_families }} !important;
-    font-weight: {{ variant_selector_font.weight }} !important;
     color: #000000;
     font-weight: {{ variant_selector_font_weight_desktop }} !important;
   }
@@ -255,7 +257,6 @@
 
   .shop-look-add-to-bag-all {
     font-family: {{ add_button_font.family }}, {{ add_button_font.fallback_families }} !important;
-    font-weight: {{ add_button_font.weight }} !important;
     font-size: {{ add_button_font_size_desktop }}px !important;
     font-weight: {{ add_button_font_weight_desktop }} !important;
     width: 100%;

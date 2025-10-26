@@ -244,6 +244,11 @@
 <script src="{{ 'shop-the-look.js' | asset_url }}" defer></script>
 
 {% stylesheet %}
+  /* Load custom fonts */
+  {{ section.settings.title_font | font_face: font_display: 'swap' }}
+  {{ section.settings.handle_font | font_face: font_display: 'swap' }}
+  {{ section.settings.card_button_font | font_face: font_display: 'swap' }}
+
   .shop-the-look-section {
     overflow: hidden;
   }
@@ -255,7 +260,6 @@
 
   .shop-the-look__title {
     font-family: {{ section.settings.title_font.family }}, {{ section.settings.title_font.fallback_families }} !important;
-    font-weight: {{ section.settings.title_font.weight }} !important;
     font-size: {{ section.settings.title_font_size_desktop }}px !important;
     font-weight: {{ section.settings.title_font_weight_desktop }} !important;
     text-transform: uppercase;
@@ -343,7 +347,6 @@
 
   .shop-look-card__handle {
     font-family: {{ section.settings.handle_font.family }}, {{ section.settings.handle_font.fallback_families }} !important;
-    font-weight: {{ section.settings.handle_font.weight }} !important;
     font-size: {{ section.settings.handle_font_size_desktop }}px !important;
     font-weight: {{ section.settings.handle_font_weight_desktop }} !important;
     position: absolute !important;
@@ -365,7 +368,6 @@
 
   .shop-look-card__button {
     font-family: {{ section.settings.card_button_font.family }}, {{ section.settings.card_button_font.fallback_families }} !important;
-    font-weight: {{ section.settings.card_button_font.weight }} !important;
     font-size: {{ section.settings.card_button_font_size_desktop }}px !important;
     font-weight: {{ section.settings.card_button_font_weight_desktop }} !important;
     display: inline-block;
