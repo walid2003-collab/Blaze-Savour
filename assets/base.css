@@ -3808,37 +3808,40 @@ slideshow-arrows .slideshow-control.slideshow-control--style-none {
 
 /* Position product carousel arrows like Shop the Look - top right, next to each other */
 .media-gallery--carousel slideshow-arrows {
-  justify-content: flex-end;
-  align-items: flex-start;
-  padding: 10px;
+  justify-content: flex-end !important;
+  align-items: flex-start !important;
+  padding-inline: 10px !important;
+  padding-block-start: 10px;
   gap: 10px;
+  mix-blend-mode: normal !important;
 }
 
 .media-gallery--carousel slideshow-arrows .slideshow-control {
-  position: static;
-  transform: none;
   width: 50px;
   height: 50px;
+  min-height: 50px;
   border-radius: 50%;
-  background-color: white;
+  background-color: white !important;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  padding: 0;
-  opacity: 1;
+  padding: 0 !important;
+  opacity: 1 !important;
+  color: #000000 !important;
 }
 
 .media-gallery--carousel slideshow-arrows .slideshow-control:hover {
-  background-color: #f5f5f5;
-  transform: scale(1.1);
+  background-color: #f5f5f5 !important;
+  transform: scale(1.1) !important;
 }
 
 .media-gallery--carousel slideshow-arrows .slideshow-control svg {
   width: 24px;
   height: 24px;
+  stroke: currentColor;
 }
 
 :not(.media-gallery--carousel)
