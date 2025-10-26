@@ -348,19 +348,19 @@ class ShopTheLook {
         }
       });
 
-      // Add all items to cart with sections parameter
-      const formData = new FormData();
-      formData.append('items', JSON.stringify(items));
+      // Build request body - include sections if available
+      const requestBody = { items: items };
       if (sections.length > 0) {
-        formData.append('sections', sections.join(','));
+        requestBody.sections = sections.join(',');
       }
 
-      const response = await fetch(Theme.routes.cart_add_url, {
+      // Add all items to cart with sections parameter
+      const response = await fetch('/cart/add.js', {
         method: 'POST',
         headers: {
-          'Accept': 'application/javascript',
+          'Content-Type': 'application/json',
         },
-        body: formData
+        body: JSON.stringify(requestBody)
       });
 
       if (response.ok) {
