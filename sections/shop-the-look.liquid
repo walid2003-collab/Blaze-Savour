@@ -211,7 +211,34 @@
     </div>
   </div>
 
-  {% render 'shop-look-modal', section_id: section.id %}
+  {% render 'shop-look-modal',
+    section_id: section.id,
+    modal_title_font: section.settings.modal_title_font,
+    modal_title_font_size_desktop: section.settings.modal_title_font_size_desktop,
+    modal_title_font_size_mobile: section.settings.modal_title_font_size_mobile,
+    modal_title_font_weight_desktop: section.settings.modal_title_font_weight_desktop,
+    modal_title_font_weight_mobile: section.settings.modal_title_font_weight_mobile,
+    product_title_font: section.settings.product_title_font,
+    product_title_font_size_desktop: section.settings.product_title_font_size_desktop,
+    product_title_font_size_mobile: section.settings.product_title_font_size_mobile,
+    product_title_font_weight_desktop: section.settings.product_title_font_weight_desktop,
+    product_title_font_weight_mobile: section.settings.product_title_font_weight_mobile,
+    product_price_font: section.settings.product_price_font,
+    product_price_font_size_desktop: section.settings.product_price_font_size_desktop,
+    product_price_font_size_mobile: section.settings.product_price_font_size_mobile,
+    product_price_font_weight_desktop: section.settings.product_price_font_weight_desktop,
+    product_price_font_weight_mobile: section.settings.product_price_font_weight_mobile,
+    variant_selector_font: section.settings.variant_selector_font,
+    variant_selector_font_size_desktop: section.settings.variant_selector_font_size_desktop,
+    variant_selector_font_size_mobile: section.settings.variant_selector_font_size_mobile,
+    variant_selector_font_weight_desktop: section.settings.variant_selector_font_weight_desktop,
+    variant_selector_font_weight_mobile: section.settings.variant_selector_font_weight_mobile,
+    add_button_font: section.settings.add_button_font,
+    add_button_font_size_desktop: section.settings.add_button_font_size_desktop,
+    add_button_font_size_mobile: section.settings.add_button_font_size_mobile,
+    add_button_font_weight_desktop: section.settings.add_button_font_weight_desktop,
+    add_button_font_weight_mobile: section.settings.add_button_font_weight_mobile
+  %}
 </div>
 
 <script src="{{ 'shop-the-look.js' | asset_url }}" defer></script>
@@ -227,9 +254,10 @@
   }
 
   .shop-the-look__title {
-    font-family: "barlow_condensed_n6", sans-serif !important;
-    font-size: 32px;
-    font-weight: 600;
+    font-family: {{ section.settings.title_font.family }}, {{ section.settings.title_font.fallback_families }} !important;
+    font-weight: {{ section.settings.title_font.weight }} !important;
+    font-size: {{ section.settings.title_font_size_desktop }}px !important;
+    font-weight: {{ section.settings.title_font_weight_desktop }} !important;
     text-transform: uppercase;
     letter-spacing: 2px;
     margin: 0;
@@ -314,7 +342,10 @@
   }
 
   .shop-look-card__handle {
-    font-family: 'barlow_condensed_n6', sans-serif !important;
+    font-family: {{ section.settings.handle_font.family }}, {{ section.settings.handle_font.fallback_families }} !important;
+    font-weight: {{ section.settings.handle_font.weight }} !important;
+    font-size: {{ section.settings.handle_font_size_desktop }}px !important;
+    font-weight: {{ section.settings.handle_font_weight_desktop }} !important;
     position: absolute !important;
     top: 10px !important;
     left: 10px !important;
@@ -322,8 +353,6 @@
     color: #000000 !important;
     padding: 6px 12px !important;
     border-radius: 5px !important;
-    font-size: 9px !important;
-    font-weight: 500 !important;
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
     z-index: 3 !important;
@@ -335,14 +364,14 @@
   }
 
   .shop-look-card__button {
-    font-family: 'barlow_condensed_n6', sans-serif !important;
-    font-weight: bold;
+    font-family: {{ section.settings.card_button_font.family }}, {{ section.settings.card_button_font.fallback_families }} !important;
+    font-weight: {{ section.settings.card_button_font.weight }} !important;
+    font-size: {{ section.settings.card_button_font_size_desktop }}px !important;
+    font-weight: {{ section.settings.card_button_font_weight_desktop }} !important;
     display: inline-block;
     padding: 12px 24px;
     border: none;
     border-radius: 50px;
-    font-size: 14px !important;
-    font-weight: 600 !important;
     text-transform: uppercase;
     letter-spacing: 1px;
     cursor: pointer;
@@ -402,7 +431,18 @@
 
   @media screen and (max-width: 768px) {
     .shop-the-look__title {
-      font-size: 24px;
+      font-size: {{ section.settings.title_font_size_mobile }}px !important;
+      font-weight: {{ section.settings.title_font_weight_mobile }} !important;
+    }
+
+    .shop-look-card__handle {
+      font-size: {{ section.settings.handle_font_size_mobile }}px !important;
+      font-weight: {{ section.settings.handle_font_weight_mobile }} !important;
+    }
+
+    .shop-look-card__button {
+      font-size: {{ section.settings.card_button_font_size_mobile }}px !important;
+      font-weight: {{ section.settings.card_button_font_weight_mobile }} !important;
     }
 
     .shop-the-look__arrow {
@@ -555,6 +595,474 @@
       "step": 1,
       "unit": "px",
       "default": 48
+    },
+    {
+      "type": "header",
+      "content": "Typography Settings"
+    },
+    {
+      "type": "header",
+      "content": "Section Title"
+    },
+    {
+      "type": "font_picker",
+      "id": "title_font",
+      "label": "Title Font",
+      "default": "assistant_n4"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size_desktop",
+      "label": "Title Font Size (Desktop)",
+      "min": 12,
+      "max": 72,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "title_font_size_mobile",
+      "label": "Title Font Size (Mobile)",
+      "min": 12,
+      "max": 72,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight_desktop",
+      "label": "Title Font Weight (Desktop)",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight_mobile",
+      "label": "Title Font Weight (Mobile)",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "header",
+      "content": "Influencer Handle"
+    },
+    {
+      "type": "font_picker",
+      "id": "handle_font",
+      "label": "Handle Font",
+      "default": "assistant_n4"
+    },
+    {
+      "type": "range",
+      "id": "handle_font_size_desktop",
+      "label": "Handle Font Size (Desktop)",
+      "min": 6,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 9
+    },
+    {
+      "type": "range",
+      "id": "handle_font_size_mobile",
+      "label": "Handle Font Size (Mobile)",
+      "min": 6,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 9
+    },
+    {
+      "type": "select",
+      "id": "handle_font_weight_desktop",
+      "label": "Handle Font Weight (Desktop)",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "select",
+      "id": "handle_font_weight_mobile",
+      "label": "Handle Font Weight (Mobile)",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "header",
+      "content": "Card Button (GET THE LOOK)"
+    },
+    {
+      "type": "font_picker",
+      "id": "card_button_font",
+      "label": "Card Button Font",
+      "default": "assistant_n4"
+    },
+    {
+      "type": "range",
+      "id": "card_button_font_size_desktop",
+      "label": "Card Button Font Size (Desktop)",
+      "min": 8,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "card_button_font_size_mobile",
+      "label": "Card Button Font Size (Mobile)",
+      "min": 8,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "card_button_font_weight_desktop",
+      "label": "Card Button Font Weight (Desktop)",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "select",
+      "id": "card_button_font_weight_mobile",
+      "label": "Card Button Font Weight (Mobile)",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "header",
+      "content": "Modal Title"
+    },
+    {
+      "type": "font_picker",
+      "id": "modal_title_font",
+      "label": "Modal Title Font",
+      "default": "assistant_n4"
+    },
+    {
+      "type": "range",
+      "id": "modal_title_font_size_desktop",
+      "label": "Modal Title Font Size (Desktop)",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "modal_title_font_size_mobile",
+      "label": "Modal Title Font Size (Mobile)",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "modal_title_font_weight_desktop",
+      "label": "Modal Title Font Weight (Desktop)",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "select",
+      "id": "modal_title_font_weight_mobile",
+      "label": "Modal Title Font Weight (Mobile)",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "header",
+      "content": "Product Title"
+    },
+    {
+      "type": "font_picker",
+      "id": "product_title_font",
+      "label": "Product Title Font",
+      "default": "assistant_n4"
+    },
+    {
+      "type": "range",
+      "id": "product_title_font_size_desktop",
+      "label": "Product Title Font Size (Desktop)",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "product_title_font_size_mobile",
+      "label": "Product Title Font Size (Mobile)",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "product_title_font_weight_desktop",
+      "label": "Product Title Font Weight (Desktop)",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "select",
+      "id": "product_title_font_weight_mobile",
+      "label": "Product Title Font Weight (Mobile)",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "header",
+      "content": "Product Price"
+    },
+    {
+      "type": "font_picker",
+      "id": "product_price_font",
+      "label": "Product Price Font",
+      "default": "assistant_n4"
+    },
+    {
+      "type": "range",
+      "id": "product_price_font_size_desktop",
+      "label": "Product Price Font Size (Desktop)",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "product_price_font_size_mobile",
+      "label": "Product Price Font Size (Mobile)",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "product_price_font_weight_desktop",
+      "label": "Product Price Font Weight (Desktop)",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "select",
+      "id": "product_price_font_weight_mobile",
+      "label": "Product Price Font Weight (Mobile)",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "header",
+      "content": "Variant Selector"
+    },
+    {
+      "type": "font_picker",
+      "id": "variant_selector_font",
+      "label": "Variant Selector Font",
+      "default": "assistant_n4"
+    },
+    {
+      "type": "range",
+      "id": "variant_selector_font_size_desktop",
+      "label": "Variant Selector Font Size (Desktop)",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "variant_selector_font_size_mobile",
+      "label": "Variant Selector Font Size (Mobile)",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "variant_selector_font_weight_desktop",
+      "label": "Variant Selector Font Weight (Desktop)",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "select",
+      "id": "variant_selector_font_weight_mobile",
+      "label": "Variant Selector Font Weight (Mobile)",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "header",
+      "content": "Add to Bag Button"
+    },
+    {
+      "type": "font_picker",
+      "id": "add_button_font",
+      "label": "Add Button Font",
+      "default": "assistant_n4"
+    },
+    {
+      "type": "range",
+      "id": "add_button_font_size_desktop",
+      "label": "Add Button Font Size (Desktop)",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "add_button_font_size_mobile",
+      "label": "Add Button Font Size (Mobile)",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "add_button_font_weight_desktop",
+      "label": "Add Button Font Weight (Desktop)",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "select",
+      "id": "add_button_font_weight_mobile",
+      "label": "Add Button Font Weight (Mobile)",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" }
+      ],
+      "default": "700"
     }
   ],
   "presets": [
