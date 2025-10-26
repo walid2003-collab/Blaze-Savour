@@ -219,21 +219,16 @@ class ShopTheLook {
       variantSelectors = '<div class="shop-look-variant-selectors">' + selectorsHTML + '</div>';
     }
 
-    // Force EGP regardless of the shop's default money_format
-const egpPrice = (window.Shopify && Shopify.formatMoney)
-  ? Shopify.formatMoney(product.price, "EGP {{amount_no_decimals}}")
-  : "EGP " + (Math.round(product.price) / 100).toLocaleString("en-EG");
 
-div.innerHTML = '<div class="shop-look-product__image-wrapper">' +
-  '<img src="' + imageUrl + '" alt="' + this.escapeHtml(product.title) + '" class="shop-look-product__image" loading="lazy">' +
-  (hasNewTag ? '<span class="shop-look-badge">NEW</span>' : '') +
-  '</div>' +
-  '<div class="shop-look-product__info">' +
-  '<h4 class="shop-look-product__title">' + this.escapeHtml(product.title) + '</h4>' +
-  '<p class="shop-look-product__price">' + egpPrice + '</p>' +
-  variantSelectors +
-  '</div>';
-
+    div.innerHTML = '<div class="shop-look-product__image-wrapper">' +
+      '<img src="' + imageUrl + '" alt="' + this.escapeHtml(product.title) + '" class="shop-look-product__image" loading="lazy">' +
+      (hasNewTag ? '<span class="shop-look-badge">NEW</span>' : '') +
+      '</div>' +
+      '<div class="shop-look-product__info">' +
+      '<h4 class="shop-look-product__title">' + this.escapeHtml(product.title) + '</h4>' +
+      '<p class="shop-look-product__price">' + this.formatMoney(product.price) + '</p>' +
+      variantSelectors +
+      '</div>';
 
 
     // Add event listeners for variant selection
@@ -379,5 +374,6 @@ if (document.readyState === 'loading') {
   new ShopTheLook();
 
 }
+
 
 
