@@ -32,13 +32,6 @@
 <div class="shop-look-toast" data-toast>Added to bag!</div>
 
 {% stylesheet %}
-  /* Load custom fonts */
-  {{ modal_title_font | font_face: font_display: 'swap' }}
-  {{ product_title_font | font_face: font_display: 'swap' }}
-  {{ product_price_font | font_face: font_display: 'swap' }}
-  {{ variant_selector_font | font_face: font_display: 'swap' }}
-  {{ add_button_font | font_face: font_display: 'swap' }}
-
   .shop-look-modal-overlay {
     position: fixed;
     top: 0;
@@ -92,9 +85,6 @@
   }
 
   .shop-look-modal__title {
-    font-family: {{ modal_title_font.family }}, {{ modal_title_font.fallback_families }} !important;
-    font-size: {{ modal_title_font_size_desktop }}px !important;
-    font-weight: {{ modal_title_font_weight_desktop }} !important;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     margin: 0;
@@ -176,18 +166,12 @@
   }
 
   .shop-look-product__title {
-    font-family: {{ product_title_font.family }}, {{ product_title_font.fallback_families }} !important;
-    font-size: {{ product_title_font_size_desktop }}px !important;
-    font-weight: {{ product_title_font_weight_desktop }} !important;
     line-height: 1.4;
     color: #000000;
     margin: 0;
   }
 
   .shop-look-product__price {
-    font-family: {{ product_price_font.family }}, {{ product_price_font.fallback_families }} !important;
-    font-size: {{ product_price_font_size_desktop }}px !important;
-    font-weight: {{ product_price_font_weight_desktop }} !important;
     color: #000000;
     margin: 0;
   }
@@ -203,9 +187,6 @@
   }
 
   .shop-look-variant-select {
-    font-family: {{ variant_selector_font.family }}, {{ variant_selector_font.fallback_families }} !important;
-    font-size: {{ variant_selector_font_size_desktop }}px !important;
-    font-weight: {{ variant_selector_font_weight_desktop }} !important;
     width: 100%;
     height: 44px;
     padding: 0 40px 0 16px;
@@ -229,9 +210,7 @@
   }
 
   .shop-look-variant-select option {
-    font-family: {{ variant_selector_font.family }}, {{ variant_selector_font.fallback_families }} !important;
     color: #000000;
-    font-weight: {{ variant_selector_font_weight_desktop }} !important;
   }
 
   .shop-look-variant-selector::after {
@@ -256,9 +235,6 @@
   }
 
   .shop-look-add-to-bag-all {
-    font-family: {{ add_button_font.family }}, {{ add_button_font.fallback_families }} !important;
-    font-size: {{ add_button_font_size_desktop }}px !important;
-    font-weight: {{ add_button_font_weight_desktop }} !important;
     width: 100%;
     height: 50px;
     background: linear-gradient(135deg, #5B7EF6 0%, #4A6ADB 100%);
@@ -351,35 +327,6 @@
 
     .shop-look-modal__footer {
       padding: 16px;
-    }
-
-    .shop-look-modal__title {
-      font-size: {{ modal_title_font_size_mobile }}px !important;
-      font-weight: {{ modal_title_font_weight_mobile }} !important;
-    }
-
-    .shop-look-product__title {
-      font-size: {{ product_title_font_size_mobile }}px !important;
-      font-weight: {{ product_title_font_weight_mobile }} !important;
-    }
-
-    .shop-look-product__price {
-      font-size: {{ product_price_font_size_mobile }}px !important;
-      font-weight: {{ product_price_font_weight_mobile }} !important;
-    }
-
-    .shop-look-variant-select {
-      font-size: {{ variant_selector_font_size_mobile }}px !important;
-      font-weight: {{ variant_selector_font_weight_mobile }} !important;
-    }
-
-    .shop-look-variant-select option {
-      font-weight: {{ variant_selector_font_weight_mobile }} !important;
-    }
-
-    .shop-look-add-to-bag-all {
-      font-size: {{ add_button_font_size_mobile }}px !important;
-      font-weight: {{ add_button_font_weight_mobile }} !important;
     }
   }
 {% endstylesheet %}
