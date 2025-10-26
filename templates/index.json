@@ -965,9 +965,7 @@
       "block_order": [
         "shop_look_card_4Vjexd"
       ],
-      "custom_css": [
-        "h2 {font-family: \"archivo_narrow_i4\", sans-serif !important;}"
-      ],
+      "custom_css": [],
       "name": "Shop The Look",
       "settings": {
         "title": "SHOP THE LOOK",
