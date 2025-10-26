@@ -960,10 +960,28 @@
             "product_4": "core-distressed-crew",
             "product_5": ""
           }
+        },
+        "shop_look_card_KEjAxD": {
+          "type": "shop-look-card",
+          "settings": {
+            "look_image": "shopify://shop_images/140_c632c24b-6863-4671-a7e2-600e7d224075.png",
+            "influencer_handle": "@AI-1234",
+            "button_text": "GET THE LOOK",
+            "button_text_font": "barlow_condensed_n4",
+            "button_color": "#ffffff",
+            "button_text_color": "#000000",
+            "overlay_color": "#0000004d",
+            "product_1": "core-midi-jacket",
+            "product_2": "core-contrast-leggings",
+            "product_3": "",
+            "product_4": "",
+            "product_5": ""
+          }
         }
       },
       "block_order": [
-        "shop_look_card_4Vjexd"
+        "shop_look_card_4Vjexd",
+        "shop_look_card_KEjAxD"
       ],
       "custom_css": [],
       "name": "Shop The Look",
@@ -974,11 +992,11 @@
         "color_scheme": "",
         "padding-block-start": 48,
         "padding-block-end": 48,
-        "title_font": "barlow_condensed_n9",
+        "title_font": "barlow_condensed_n5",
         "title_font_size_desktop": 36,
-        "title_font_size_mobile": 24,
-        "title_font_weight_desktop": "600",
-        "title_font_weight_mobile": "600",
+        "title_font_size_mobile": 36,
+        "title_font_weight_desktop": "700",
+        "title_font_weight_mobile": "700",
         "handle_font": "barlow_condensed_n5",
         "handle_font_size_desktop": 12,
         "handle_font_size_mobile": 12,
