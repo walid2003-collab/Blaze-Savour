@@ -378,53 +378,73 @@ class ShopTheLook {
 
       console.log('Cart state:', cart);
 
-      // Step 2: Dispatch cart change events with the cart data
-      document.dispatchEvent(new CustomEvent('cart:change', {
-        detail: { cart }
-      }));
-
-      // Step 3: Fetch fresh cart drawer HTML with cache-busting timestamp
+      // Step 2: Try multiple section names to find the cart drawer
       const timestamp = new Date().getTime();
-      const sectionsResponse = await fetch(`/?sections=cart-drawer&t=${timestamp}`, {
-        headers: {
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache'
-        }
-      });
-      const sectionsData = await sectionsResponse.json();
+      const sectionNames = ['cart-drawer', 'cart-notification', 'main-cart-items', 'cart-items'];
+      let sectionsData = null;
+      let foundSectionName = null;
 
-      console.log('Sections data:', sectionsData);
+      for (const sectionName of sectionNames) {
+        try {
+          const sectionsResponse = await fetch(`/?sections=${sectionName}&t=${timestamp}`, {
+            headers: {
+              'Cache-Control': 'no-cache',
+              'Pragma': 'no-cache'
+            }
+          });
+          const data = await sectionsResponse.json();
+          console.log(`Trying section: ${sectionName}`, data);
 
-      // Step 4: Find and update the cart drawer element
-      const cartDrawer = document.querySelector('cart-drawer');
-
-      if (cartDrawer && sectionsData['cart-drawer']) {
-        // Replace the cart drawer's inner HTML with fresh content
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = sectionsData['cart-drawer'];
-        const newCartDrawerContent = tempDiv.querySelector('cart-drawer');
-
-        if (newCartDrawerContent) {
-          cartDrawer.innerHTML = newCartDrawerContent.innerHTML;
-          console.log('Cart drawer HTML updated');
+          if (data[sectionName] && data[sectionName] !== null) {
+            sectionsData = data;
+            foundSectionName = sectionName;
+            console.log(`Found working section: ${sectionName}`);
+            break;
+          }
+        } catch (e) {
+          console.log(`Section ${sectionName} failed:`, e);
         }
       }
 
-      // Step 5: Update cart count in header
+      // Step 3: Update cart drawer if we found the section
+      if (sectionsData && foundSectionName) {
+        const cartDrawer = document.querySelector('cart-drawer') ||
+                          document.querySelector('#cart-drawer') ||
+                          document.querySelector('[id*="CartDrawer"]');
+
+        if (cartDrawer) {
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = sectionsData[foundSectionName];
+          const newCartDrawerContent = tempDiv.querySelector('cart-drawer') ||
+                                       tempDiv.querySelector('#cart-drawer') ||
+                                       tempDiv.querySelector('[id*="CartDrawer"]');
+
+          if (newCartDrawerContent) {
+            cartDrawer.innerHTML = newCartDrawerContent.innerHTML;
+            console.log('Cart drawer HTML updated');
+          }
+        }
+      }
+
+      // Step 4: Update cart count in header
       const cartCount = document.querySelector('.header__icon--cart .cart-count-bubble span') ||
-                       document.querySelector('[data-cart-count]');
+                       document.querySelector('[data-cart-count]') ||
+                       document.querySelector('.cart-count');
       if (cartCount) {
         cartCount.textContent = cart.item_count;
       }
 
-      // Step 6: Dispatch additional update events
+      // Step 5: Dispatch cart change events with the cart data
+      document.dispatchEvent(new CustomEvent('cart:change', {
+        detail: { cart }
+      }));
       document.dispatchEvent(new CustomEvent('cart:refresh'));
       document.dispatchEvent(new CustomEvent('cart:updated'));
 
-      // Step 7: Wait a bit longer for DOM and events to process, then open
+      // Step 6: Wait then open drawer
       setTimeout(() => {
         this.openCartDrawer();
-      }, 200);
+      }, 300);
 
     } catch (error) {
       console.error('Error refreshing cart:', error);
