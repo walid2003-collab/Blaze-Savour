@@ -1053,7 +1053,7 @@
         "handle_font_size_mobile": 12,
         "handle_font_weight_desktop": "500",
         "handle_font_weight_mobile": "500",
-        "card_button_font": "barlow_condensed_n6",
+        "card_button_font": "barlow_n5",
         "card_button_font_size_desktop": 12,
         "card_button_font_size_mobile": 12,
         "card_button_font_weight_desktop": "600",
