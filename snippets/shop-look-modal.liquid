@@ -295,8 +295,19 @@
 
   @media screen and (max-width: 768px) {
     .shop-look-modal {
-      width: 95vw;
-      max-height: 95vh;
+      top: auto;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      transform: translateY(100%);
+      width: 100%;
+      max-width: 100%;
+      max-height: 66.67vh; /* 2/3 of screen */
+      border-radius: 16px 16px 0 0; /* Only round top corners */
+    }
+
+    .shop-look-modal.active {
+      transform: translateY(0);
     }
 
     .shop-look-modal__content {
@@ -327,6 +338,7 @@
 
     .shop-look-modal__footer {
       padding: 16px;
+      border-radius: 0; /* Square corners at bottom on mobile */
     }
   }
 {% endstylesheet %}
