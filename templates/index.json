@@ -1011,13 +1011,31 @@
             "product_4": "",
             "product_5": ""
           }
+        },
+        "shop_look_card_GjaTfz": {
+          "type": "shop-look-card",
+          "settings": {
+            "look_image": "shopify://shop_images/WhatsApp_Image_2025-10-27_at_12.12.34_1.png",
+            "influencer_handle": "@marti.bonanni",
+            "button_text": "GET THE LOOK",
+            "button_text_font": "barlow_condensed_n4",
+            "button_color": "#ffffff",
+            "button_text_color": "#000000",
+            "overlay_color": "#0000004d",
+            "product_1": "prime-racer-back-cropped-top",
+            "product_2": "prime-straight-leg-bottoms",
+            "product_3": "",
+            "product_4": "",
+            "product_5": ""
+          }
         }
       },
       "block_order": [
         "shop_look_card_TnKUUJ",
         "shop_look_card_4Vjexd",
         "shop_look_card_L6zfGE",
-        "shop_look_card_KEjAxD"
+        "shop_look_card_KEjAxD",
+        "shop_look_card_GjaTfz"
       ],
       "custom_css": [],
       "name": "Shop The Look",
