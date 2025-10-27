@@ -944,19 +944,53 @@
     "shop_the_look_dmCLFg": {
       "type": "shop-the-look",
       "blocks": {
+        "shop_look_card_TnKUUJ": {
+          "type": "shop-look-card",
+          "settings": {
+            "look_image": "shopify://shop_images/WhatsApp_Image_2025-10-26_at_2.37.05_PM_2.png",
+            "influencer_handle": "@fit.faten__",
+            "button_text": "GET THE LOOK",
+            "button_text_font": "work_sans_n4",
+            "button_color": "#ffffff",
+            "button_text_color": "#000000",
+            "overlay_color": "#0000004d",
+            "product_1": "wrap-long-sleeve-top",
+            "product_2": "core-straight-leg-bottoms",
+            "product_3": "core-hip-cover",
+            "product_4": "",
+            "product_5": ""
+          }
+        },
         "shop_look_card_4Vjexd": {
           "type": "shop-look-card",
           "settings": {
-            "look_image": "shopify://shop_images/IMG_8526_1_1.png",
+            "look_image": "shopify://shop_images/IMG_8526_2.png",
             "influencer_handle": "@hagarellshafey",
             "button_text": "GET THE LOOK",
             "button_text_font": "barlow_condensed_n6",
             "button_color": "#ffffff",
             "button_text_color": "#000000",
             "overlay_color": "#0000000f",
-            "product_1": "",
+            "product_1": "core-cropped-hoodie",
             "product_2": "",
-            "product_3": "core-cropped-hoodie",
+            "product_3": "",
+            "product_4": "",
+            "product_5": ""
+          }
+        },
+        "shop_look_card_L6zfGE": {
+          "type": "shop-look-card",
+          "settings": {
+            "look_image": "shopify://shop_images/Blaze-06155_3.png",
+            "influencer_handle": "@v_khoklova",
+            "button_text": "GET THE LOOK",
+            "button_text_font": "work_sans_n4",
+            "button_color": "#ffffff",
+            "button_text_color": "#000000",
+            "overlay_color": "#0000004d",
+            "product_1": "prime-cropped-top",
+            "product_2": "prime-flex-pocket-leggings",
+            "product_3": "",
             "product_4": "",
             "product_5": ""
           }
@@ -977,63 +1011,13 @@
             "product_4": "",
             "product_5": ""
           }
-        },
-        "shop_look_card_L6zfGE": {
-          "type": "shop-look-card",
-          "settings": {
-            "look_image": "shopify://shop_images/IMG_8525_5.png",
-            "influencer_handle": "@safi_bayoumy",
-            "button_text": "GET THE LOOK",
-            "button_text_font": "work_sans_n4",
-            "button_color": "#ffffff",
-            "button_text_color": "#000000",
-            "overlay_color": "#0000004d",
-            "product_1": "prime-cami-tank-with-shelf",
-            "product_2": "prime-pocket-leggings",
-            "product_3": "",
-            "product_4": "",
-            "product_5": ""
-          }
-        },
-        "shop_look_card_TnKUUJ": {
-          "type": "shop-look-card",
-          "settings": {
-            "influencer_handle": "",
-            "button_text": "GET THE LOOK",
-            "button_text_font": "work_sans_n4",
-            "button_color": "#ffffff",
-            "button_text_color": "#000000",
-            "overlay_color": "#0000004d",
-            "product_1": "",
-            "product_2": "",
-            "product_3": "",
-            "product_4": "",
-            "product_5": ""
-          }
-        },
-        "shop_look_card_Vy9ezi": {
-          "type": "shop-look-card",
-          "settings": {
-            "influencer_handle": "",
-            "button_text": "GET THE LOOK",
-            "button_text_font": "work_sans_n4",
-            "button_color": "#ffffff",
-            "button_text_color": "#000000",
-            "overlay_color": "#0000004d",
-            "product_1": "",
-            "product_2": "",
-            "product_3": "",
-            "product_4": "",
-            "product_5": ""
-          }
         }
       },
       "block_order": [
-        "shop_look_card_4Vjexd",
-        "shop_look_card_KEjAxD",
-        "shop_look_card_L6zfGE",
         "shop_look_card_TnKUUJ",
-        "shop_look_card_Vy9ezi"
+        "shop_look_card_4Vjexd",
+        "shop_look_card_L6zfGE",
+        "shop_look_card_KEjAxD"
       ],
       "custom_css": [],
       "name": "Shop The Look",
