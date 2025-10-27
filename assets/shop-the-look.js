@@ -210,7 +210,11 @@ class ShopTheLook {
       (hasNewTag ? '<span class="shop-look-badge">NEW</span>' : '') +
       '</div>' +
       '<div class="shop-look-product__info">' +
-      '<h4 class="shop-look-product__title">' + this.escapeHtml(product.title) + '</h4>' +
+      '<h4 class="shop-look-product__title">' +
+      '<a href="/products/' + product.handle + '" class="shop-look-product__title-link">' +
+      this.escapeHtml(product.title) +
+      '</a>' +
+      '</h4>' +
       '<p class="shop-look-product__price">' + this.formatMoney(product.price) + '</p>' +
       variantSelectors +
       '</div>';
