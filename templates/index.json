@@ -998,15 +998,15 @@
         "shop_look_card_KEjAxD": {
           "type": "shop-look-card",
           "settings": {
-            "look_image": "shopify://shop_images/IMG_8523_5.png",
-            "influencer_handle": "@malak.hassann",
+            "look_image": "shopify://shop_images/Blaze-06537_1.png",
+            "influencer_handle": "@alaahanyy",
             "button_text": "GET THE LOOK",
             "button_text_font": "barlow_condensed_n4",
             "button_color": "#ffffff",
             "button_text_color": "#000000",
             "overlay_color": "#0000004d",
-            "product_1": "prime-flexvent-tank",
-            "product_2": "prime-training-leggings",
+            "product_1": "prime-long-line-top",
+            "product_2": "prime-hip-cover",
             "product_3": "",
             "product_4": "",
             "product_5": ""
