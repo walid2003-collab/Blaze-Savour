@@ -28,6 +28,13 @@
     assign percentage = price_difference | times: 100.0 | divided_by: product.compare_at_price
     assign sale_percentage = percentage | round
   endif
+
+  # Check for custom badge text metafield
+  assign custom_badge_text = product.metafields.custom.badge_text
+  assign show_custom_badge = false
+  if custom_badge_text != blank and is_new_product == false
+    assign show_custom_badge = true
+  endif
 %}
 
 <div
@@ -57,6 +64,12 @@
   <div class="product-badges product-badges--bottom-left product-badges--new">
     <div class="product-badges__badge product-badges__badge--rectangle product-badges__badge--new">
       NEW
+    </div>
+  </div>
+{%- elsif show_custom_badge -%}
+  <div class="product-badges product-badges--bottom-left product-badges--custom-text">
+    <div class="product-badges__badge product-badges__badge--rectangle product-badges__badge--new">
+      {{ custom_badge_text }}
     </div>
   </div>
 {%- endif -%}
