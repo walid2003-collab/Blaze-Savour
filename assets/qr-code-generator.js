@@ -1,6 +1,39 @@
 /* eslint-disable no-redeclare */
 
 /**
+ * ⚠️  LEGACY CODE - DO NOT USE DIRECTLY
+ * 
+ * This module is a legacy pre-ES6 QR code library with significant technical debt.
+ * 
+ * USAGE RULES:
+ * ✓ DO   – Import via /assets/qr-code/adapter.js wrapper
+ * ✓ DO   – Use for gift card QR code rendering (confirmed active)
+ * ✗ DON'T – Import directly into new modules
+ * ✗ DON'T – Extend or modify this code
+ * 
+ * RISKS:
+ * - Pre-ES6 code with magic numbers (hard to maintain)
+ * - ~1,700 lines of undocumented code
+ * - If this breaks, gift card QR codes fail
+ * - Blocks adoption of modern JS practices
+ * 
+ * DEPRECATION PLAN:
+ * See /specs/qr_code_audit.md for modernization roadmap.
+ * Plan: Replace with maintained QR library (e.g., qrcode npm package) in future sprint.
+ * The adapter module ensures this change won't affect existing code.
+ * 
+ * REFERENCES:
+ * - Gift card template: /templates/gift_card.liquid
+ * - Wrapper component: /assets/qr-code-image.js
+ * - Adapter module: /assets/qr-code/adapter.js
+ * - Audit & roadmap: /specs/qr_code_audit.md
+ * 
+ * @deprecated Use /assets/qr-code/adapter.js instead
+ * @author davidshimjs (original)
+ * @see http://www.d-project.com/
+ */
+
+/**
  * @fileoverview
  * - Using the 'QRCode for Javascript library'
  * - Fixed dataset of 'QRCode for Javascript library' for support full-spec.
