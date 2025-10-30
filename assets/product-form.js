@@ -176,6 +176,11 @@ class ProductFormComponent extends Component {
 
     const formData = new FormData(form);
 
+    // Add line item property if this form is being submitted from quick add modal
+    if (this.closest('.quick-add-modal')) {
+      formData.append('properties[_source]', 'Quick Add');
+    }
+
     const cartItemsComponents = document.querySelectorAll('cart-items-component');
     let cartItemComponentsSectionIds = [];
     cartItemsComponents.forEach((item) => {
