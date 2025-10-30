@@ -333,7 +333,10 @@ class ShopTheLook {
 
         items.push({
           id: variantId,
-          quantity: 1
+          quantity: 1,
+          properties: {
+            '_source': 'Shop the Look'
+          }
         });
       });
 
